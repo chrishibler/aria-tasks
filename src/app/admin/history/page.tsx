@@ -1,0 +1,142 @@
+"use client";
+
+import { useMemo } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useCompletions } from "@/lib/hooks/use-completions";
+import { useRedemptions } from "@/lib/hooks/use-redemptions";
+import { useTasks } from "@/lib/hooks/use-tasks";
+import { useProfiles } from "@/lib/hooks/use-profiles";
+import { PROFILE_COLORS } from "@/lib/constants";
+
+export default function AdminHistoryPage() {
+  const { completions } = useCompletions({ todayOnly: false });
+  const { redemptions } = useRedemptions();
+  const { tasks } = useTasks();
+  const { profiles } = useProfiles();
+
+  const taskMap = useMemo(() => new Map(tasks.map((t) => [t.id, t])), [tasks]);
+  const profileMap = useMemo(() => new Map(profiles.map((p) => [p.id, p])), [profiles]);
+
+  const sortedCompletions = useMemo(
+    () =>
+      [...completions].sort((a, b) => {
+        if (a.date !== b.date) return b.date.localeCompare(a.date);
+        return (b.completedAt?.seconds ?? 0) - (a.completedAt?.seconds ?? 0);
+      }),
+    [completions]
+  );
+
+  return (
+    <div className="max-w-3xl">
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">History</h2>
+
+      <Tabs defaultValue="earned">
+        <TabsList>
+          <TabsTrigger value="earned">Stars Earned</TabsTrigger>
+          <TabsTrigger value="redeemed">Rewards Redeemed</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="earned">
+          {sortedCompletions.length === 0 ? (
+            <p className="text-gray-500 mt-4">No completions yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Profile</TableHead>
+                  <TableHead>Task</TableHead>
+                  <TableHead className="text-right">Stars</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedCompletions.map((c) => {
+                  const task = taskMap.get(c.taskId);
+                  const profile = profileMap.get(c.profileId);
+                  const colors = profile ? PROFILE_COLORS[profile.color] : null;
+                  return (
+                    <TableRow key={c.id}>
+                      <TableCell className="text-sm">{c.date}</TableCell>
+                      <TableCell>
+                        {profile ? (
+                          <span className={`text-sm font-medium ${colors?.text}`}>
+                            {profile.name}
+                          </span>
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {task ? (
+                          <span>
+                            {task.emoji} {task.name}
+                          </span>
+                        ) : (
+                          "Deleted"
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right font-medium">
+                        +{task?.stars ?? 0}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </TabsContent>
+
+        <TabsContent value="redeemed">
+          {redemptions.length === 0 ? (
+            <p className="text-gray-500 mt-4">No redemptions yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Profile</TableHead>
+                  <TableHead>Reward</TableHead>
+                  <TableHead className="text-right">Stars Spent</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {redemptions.map((r) => {
+                  const profile = profileMap.get(r.profileId);
+                  const colors = profile ? PROFILE_COLORS[profile.color] : null;
+                  return (
+                    <TableRow key={r.id}>
+                      <TableCell className="text-sm">
+                        {r.redeemedAt?.toDate?.()?.toLocaleDateString() ?? "—"}
+                      </TableCell>
+                      <TableCell>
+                        {profile ? (
+                          <span className={`text-sm font-medium ${colors?.text}`}>
+                            {profile.name}
+                          </span>
+                        ) : (
+                          "—"
+                        )}
+                      </TableCell>
+                      <TableCell>{r.rewardName}</TableCell>
+                      <TableCell className="text-right font-medium">
+                        -{r.starCost}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}

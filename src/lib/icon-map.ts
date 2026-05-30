@@ -1,0 +1,60 @@
+import {
+  Sun,
+  Moon,
+  Star,
+  Heart,
+  Book,
+  Brush,
+  Music,
+  Apple,
+  Bath,
+  Bed,
+  Shirt,
+  Utensils,
+  Dog,
+  Cat,
+  Flower2,
+  Sparkles,
+  Palette,
+  Pencil,
+  Backpack,
+  Clock,
+  Home,
+  Smile,
+  CloudSun,
+  Sandwich,
+  type LucideIcon,
+} from "lucide-react";
+
+export const iconMap: Record<string, LucideIcon> = {
+  sun: Sun,
+  moon: Moon,
+  star: Star,
+  heart: Heart,
+  book: Book,
+  brush: Brush,
+  music: Music,
+  apple: Apple,
+  bath: Bath,
+  bed: Bed,
+  shirt: Shirt,
+  utensils: Utensils,
+  dog: Dog,
+  cat: Cat,
+  flower: Flower2,
+  sparkles: Sparkles,
+  palette: Palette,
+  pencil: Pencil,
+  backpack: Backpack,
+  clock: Clock,
+  home: Home,
+  smile: Smile,
+  cloudsun: CloudSun,
+  sandwich: Sandwich,
+};
+
+export const iconNames = Object.keys(iconMap);
+
+export function getIcon(name: string): LucideIcon {
+  return iconMap[name] || Star;
+}
