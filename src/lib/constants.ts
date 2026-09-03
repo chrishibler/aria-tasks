@@ -133,3 +133,24 @@ export function getRotatingPin(date: Date = new Date()): string {
   return `${day}${month}`;
 }
 export const DEFAULT_FAMILY_NAME = "Our Family";
+
+// Curated icons offered when creating or renaming a custom list. Any emoji can
+// still be typed by hand in the "custom" field.
+export const LIST_ICONS = [
+  "📝", "✅", "🛒", "🧺", "🎒", "🍎", "🥕", "🍕",
+  "☕", "🎂", "🧹", "🧼", "🛁", "🐶", "🐱", "🌱",
+  "🎁", "🎈", "🎄", "✈️", "🏖️", "🚗", "🏠", "📚",
+  "🎨", "🎵", "🎬", "⚽", "🧸", "💊", "🔧", "⭐",
+];
+
+export const DEFAULT_LIST_ICON = "📝";
+
+/**
+ * Some older lists store a lucide icon name ("star", "sun") rather than an
+ * emoji, which would otherwise render as literal text in the icon slot. Fall
+ * back to the default so the row still looks right; re-picking an icon in the
+ * list dialog replaces the stale value.
+ */
+export function listIcon(icon: string | undefined): string {
+  return icon && /\p{Extended_Pictographic}/u.test(icon) ? icon : DEFAULT_LIST_ICON;
+}

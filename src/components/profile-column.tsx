@@ -232,7 +232,7 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
   const ringColor = progressColors[profile.color];
 
   return (
-    <div className={cn("flex min-w-[300px] max-w-[400px] flex-1 flex-col rounded-2xl m-2", columnBgColors[profile.color])}>
+    <div className={cn("m-2 flex w-[calc(100%-1rem)] flex-none snap-center snap-always flex-col rounded-2xl sm:w-auto sm:min-w-[300px] sm:max-w-[400px] sm:flex-1", columnBgColors[profile.color])}>
       {/* Profile header */}
       <div className={cn("px-5 pt-5 pb-4", headerBgColors[profile.color], "rounded-t-2xl")}>
         <div className="flex items-center gap-3 mb-3">

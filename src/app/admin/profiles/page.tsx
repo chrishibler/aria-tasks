@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ProfileForm } from "@/components/admin/profile-form";
+import { useConfirm } from "@/components/confirm-provider";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { createProfile, updateProfile, deleteProfile } from "@/lib/actions/admin";
 import { PROFILE_COLORS } from "@/lib/constants";
@@ -12,6 +13,7 @@ import type { Profile, ProfileColor } from "@/types";
 
 export default function AdminProfilesPage() {
   const { profiles, loading } = useProfiles();
+  const confirm = useConfirm();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Profile | undefined>();
 
@@ -35,7 +37,14 @@ export default function AdminProfilesPage() {
   }
 
   async function handleDelete(id: string) {
-    if (confirm("Delete this profile and all their tasks/completions?")) {
+    if (
+      await confirm({
+        title: "Delete this profile?",
+        description:
+          "Their tasks and completed history will be deleted too. This cannot be undone.",
+        confirmLabel: "Delete profile",
+      })
+    ) {
       await deleteProfile(id);
     }
   }

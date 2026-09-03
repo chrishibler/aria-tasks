@@ -14,6 +14,7 @@ import {
   GiftIcon,
   ClockIcon,
   Cog6ToothIcon,
+  ListBulletIcon,
   ArrowRightStartOnRectangleIcon,
   ArrowLeftIcon,
   Bars3Icon,
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/admin/profiles", label: "Profiles", icon: UsersIcon },
   { href: "/admin/tasks", label: "Tasks", icon: ClipboardDocumentListIcon },
   { href: "/admin/rewards", label: "Rewards", icon: GiftIcon },
+  { href: "/admin/lists", label: "Lists", icon: ListBulletIcon },
   { href: "/admin/history", label: "History", icon: ClockIcon },
   { href: "/admin/settings", label: "Settings", icon: Cog6ToothIcon },
 ];
@@ -122,7 +124,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         )}
 
         {/* Main content */}
-        <main className="flex-1 p-6">{children}</main>
+        <main className="min-w-0 flex-1 p-6">{children}</main>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export default function TasksPage() {
     return (
       <div className="flex h-full">
         {[1, 2].map((i) => (
-          <div key={i} className="flex-1 border-r p-4 space-y-4">
+          <div key={i} className="w-full flex-none border-r p-4 space-y-4 sm:w-auto sm:flex-1">
             <Skeleton className="h-14 rounded-xl" />
             <Skeleton className="h-8 rounded-lg" />
             <Skeleton className="h-8 rounded-lg" />
@@ -37,7 +37,7 @@ export default function TasksPage() {
   }
 
   return (
-    <div className="flex h-full overflow-x-auto">
+    <div className="flex h-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain sm:snap-none">
       {profiles.map((profile) => (
         <ProfileColumn key={profile.id} profile={profile} />
       ))}

@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { RewardForm } from "@/components/admin/reward-form";
+import { useConfirm } from "@/components/confirm-provider";
 import { useRewards } from "@/lib/hooks/use-rewards";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { createReward, updateReward, deleteReward } from "@/lib/actions/admin";
@@ -14,6 +15,7 @@ import type { Reward } from "@/types";
 
 export default function AdminRewardsPage() {
   const { rewards, loading } = useRewards();
+  const confirm = useConfirm();
   const { profiles } = useProfiles();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Reward | undefined>();
@@ -41,7 +43,14 @@ export default function AdminRewardsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (confirm("Delete this reward?")) {
+    if (
+      await confirm({
+        title: "Delete this reward?",
+        description:
+          "It will no longer be available to redeem. Past redemptions are kept in History.",
+        confirmLabel: "Delete reward",
+      })
+    ) {
       await deleteReward(id);
     }
   }

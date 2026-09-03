@@ -153,6 +153,16 @@ export async function updateCustomList(id: string, data: Partial<{ name: string;
   await updateDoc(doc(db, "lists", id), data);
 }
 
+/** Hides the list from the family view but keeps it (and its items) in Firestore. */
+export async function softDeleteCustomList(id: string) {
+  await updateDoc(doc(db, "lists", id), { deletedAt: serverTimestamp() });
+}
+
+export async function restoreCustomList(id: string) {
+  await updateDoc(doc(db, "lists", id), { deletedAt: null });
+}
+
+/** Permanent: removes the list document and every item belonging to it. */
 export async function deleteCustomList(id: string) {
   const batch = writeBatch(db);
 

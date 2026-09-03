@@ -86,6 +86,9 @@ export interface CustomList {
   name: string;
   icon: string;
   createdAt: Timestamp;
+  // Set when soft-deleted; null/absent means active. Soft-deleted lists keep
+  // their items so a restore brings the whole list back intact.
+  deletedAt?: Timestamp | null;
 }
 
 export interface ListItem {

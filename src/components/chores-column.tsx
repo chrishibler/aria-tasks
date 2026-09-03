@@ -52,7 +52,7 @@ export function ChoresColumn({ profiles }: ChoresColumnProps) {
   );
 
   return (
-    <div className="flex min-w-[300px] max-w-[400px] flex-1 flex-col rounded-2xl m-2 bg-slate-100/70">
+    <div className="m-2 flex w-[calc(100%-1rem)] flex-none snap-center snap-always flex-col rounded-2xl sm:w-auto sm:min-w-[300px] sm:max-w-[400px] sm:flex-1 bg-slate-100/70">
       {/* Header */}
       <div className="px-5 pt-5 pb-4 rounded-t-2xl bg-slate-100">
         <div className="flex items-center gap-3 mb-3">

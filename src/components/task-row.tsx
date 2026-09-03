@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, Check } from "lucide-react";
 import { completeTask, uncompleteTask } from "@/lib/actions/tasks";
 import { useDateNavigation } from "@/lib/hooks/use-date-navigation";
-import { illustrationSrc, illustrationBg, illustrationBgDark } from "@/lib/constants";
+import { illustrationSrc, illustrationBg } from "@/lib/constants";
 import { playSuccessSound } from "@/lib/sounds";
 import type { Task, Completion, ProfileColor } from "@/types";
 import { cn } from "@/lib/utils";
@@ -189,87 +189,80 @@ export function TaskCard({ task, completion, profileColor }: TaskCardProps) {
           : {}
       }
       transition={{ duration: 0.7, ease: "easeInOut" }}
-      className="relative flex w-full flex-col rounded-2xl bg-white text-left transition-all"
-      style={{ zIndex: animating ? 20 : undefined }}
+      // Single horizontal row: the illustration is a thumbnail beside the name
+      // rather than a stacked banner above it, which is what made these tall.
+      className="relative flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-all"
+      style={{
+        backgroundColor: illustrationBg(task.illustration),
+        zIndex: animating ? 20 : undefined,
+      }}
     >
       {/* Celebration burst */}
       <AnimatePresence>
         {showConfetti && <Celebration profileColor={profileColor} />}
       </AnimatePresence>
 
-      {/* Top: large centered emoji */}
-      <div
-        className="flex items-center justify-center rounded-t-2xl px-4 pt-5 pb-4"
-        style={{ backgroundColor: illustrationBg(task.illustration) }}
+      <motion.div
+        className="shrink-0"
+        animate={
+          animating
+            ? { scale: [1, 1.5, 0.85, 1.15, 1], rotate: [0, -16, 14, -6, 0] }
+            : isCompleted
+              ? { opacity: 0.5 }
+              : { opacity: 1 }
+        }
+        transition={animating ? { duration: 0.7, ease: "easeInOut" } : { duration: 0.3 }}
       >
-        <motion.div
-          animate={
-            animating
-              ? { scale: [1, 1.5, 0.85, 1.15, 1], rotate: [0, -16, 14, -6, 0] }
-              : isCompleted
-                ? { opacity: 0.5 }
-                : { opacity: 1 }
-          }
-          transition={animating ? { duration: 0.7, ease: "easeInOut" } : { duration: 0.3 }}
-        >
-          <Image
-            src={illustrationSrc(task.illustration)}
-            alt={task.name}
-            width={96}
-            height={96}
-            priority
-          />
-        </motion.div>
-      </div>
+        <Image
+          src={illustrationSrc(task.illustration)}
+          alt=""
+          width={56}
+          height={56}
+          className="rounded-xl ring-1 ring-black/5"
+        />
+      </motion.div>
 
-      {/* Bottom: name + stars on left, checkbox on right */}
-      <div
-        className="flex items-center px-4 pt-3 pb-4 rounded-b-2xl"
-        style={{ backgroundColor: illustrationBgDark(task.illustration) }}
+      <p
+        className={cn(
+          "min-w-0 flex-1 text-base font-semibold leading-snug line-clamp-2",
+          isCompleted && "text-muted-foreground line-through opacity-60"
+        )}
       >
-        <div className="flex-1 min-w-0">
-          <p
-            className={cn(
-              "text-sm font-semibold leading-tight",
-              isCompleted && "line-through text-muted-foreground opacity-50"
-            )}
-          >
-            {task.name}
-          </p>
-          <motion.div
-            className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 shadow-sm"
-            animate={animating ? { scale: [1, 1.2, 1] } : {}}
-            transition={{ duration: 0.3, delay: 0.2 }}
-          >
-            <Star className={cn("h-4 w-4 text-star", isCompleted && "fill-star")} />
-            <span className="text-sm font-bold">{task.stars}</span>
-          </motion.div>
-        </div>
+        {task.name}
+      </p>
 
-        <motion.div
-          animate={animating ? { scale: [1, 1.7, 0.9, 1.2, 1] } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className={cn(
-            "ml-3 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-[2.5px] transition-all duration-200",
-            isCompleted
-              ? colorCheckStyles[profileColor]
-              : colorUncheckedStyles[profileColor]
+      <motion.div
+        className="flex shrink-0 items-center gap-1 rounded-full bg-white/80 px-2 py-1 shadow-sm"
+        animate={animating ? { scale: [1, 1.2, 1] } : {}}
+        transition={{ duration: 0.3, delay: 0.2 }}
+      >
+        <Star className={cn("h-4 w-4 text-star", isCompleted && "fill-star")} />
+        <span className="text-sm font-bold">{task.stars}</span>
+      </motion.div>
+
+      <motion.div
+        animate={animating ? { scale: [1, 1.7, 0.9, 1.2, 1] } : {}}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={cn(
+          "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-[2.5px] bg-white/40 transition-all duration-200",
+          isCompleted
+            ? colorCheckStyles[profileColor]
+            : colorUncheckedStyles[profileColor]
+        )}
+      >
+        <AnimatePresence>
+          {isCompleted && (
+            <motion.div
+              initial={{ scale: 0, rotate: -45 }}
+              animate={{ scale: 1, rotate: 0 }}
+              exit={{ scale: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+            >
+              <Check className="h-5 w-5 text-white" />
+            </motion.div>
           )}
-        >
-          <AnimatePresence>
-            {isCompleted && (
-              <motion.div
-                initial={{ scale: 0, rotate: -45 }}
-                animate={{ scale: 1, rotate: 0 }}
-                exit={{ scale: 0 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              >
-                <Check className="h-4 w-4 text-white" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+        </AnimatePresence>
+      </motion.div>
     </motion.button>
   );
 }

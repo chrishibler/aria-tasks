@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { onSnapshot, query, orderBy } from "firebase/firestore";
 import { listsCollection } from "../collections";
 import type { CustomList } from "@/types";
 
 export function useCustomLists() {
-  const [lists, setLists] = useState<CustomList[]>([]);
+  const [allLists, setAllLists] = useState<CustomList[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,11 +16,17 @@ export function useCustomLists() {
         id: doc.id,
         ...doc.data(),
       })) as CustomList[];
-      setLists(data);
+      setAllLists(data);
       setLoading(false);
     });
     return unsubscribe;
   }, []);
 
-  return { lists, loading };
+  // Partitioned in memory rather than with a `where` clause: lists created
+  // before soft delete existed have no `deletedAt` field at all, and Firestore
+  // equality filters never match a missing field.
+  const lists = useMemo(() => allLists.filter((l) => !l.deletedAt), [allLists]);
+  const deletedLists = useMemo(() => allLists.filter((l) => l.deletedAt), [allLists]);
+
+  return { lists, deletedLists, loading };
 }
