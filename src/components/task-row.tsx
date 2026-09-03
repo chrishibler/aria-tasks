@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, Check } from "lucide-react";
 import { completeTask, uncompleteTask } from "@/lib/actions/tasks";
+import { useConfirm } from "@/components/confirm-provider";
 import { useDateNavigation } from "@/lib/hooks/use-date-navigation";
 import { illustrationSrc, illustrationBg } from "@/lib/constants";
 import { playSuccessSound } from "@/lib/sounds";
@@ -163,13 +164,25 @@ function Celebration({ profileColor }: { profileColor: ProfileColor }) {
 
 export function TaskCard({ task, completion, profileColor }: TaskCardProps) {
   const { dateString } = useDateNavigation();
+  const confirm = useConfirm();
   const isCompleted = !!completion;
   const [animating, setAnimating] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
   const handleToggle = useCallback(async () => {
     if (isCompleted && completion) {
-      await uncompleteTask(completion.id);
+      const result = await uncompleteTask(completion.id, task.profileId, task.stars);
+      if (!result.ok) {
+        await confirm({
+          title: "Those stars are already spent",
+          description: `Un-checking "${task.name}" would take away ${task.stars} star${
+            task.stars === 1 ? "" : "s"
+          }, but ${result.shortfall} of them have already been spent on a reward. Ask a parent to sort it out.`,
+          confirmLabel: "OK",
+          destructive: false,
+          showCancel: false,
+        });
+      }
     } else {
       setAnimating(true);
       setShowConfetti(true);
@@ -178,7 +191,7 @@ export function TaskCard({ task, completion, profileColor }: TaskCardProps) {
       setTimeout(() => setAnimating(false), 700);
       setTimeout(() => setShowConfetti(false), 1200);
     }
-  }, [isCompleted, completion, task.id, task.profileId, dateString]);
+  }, [isCompleted, completion, task.id, task.profileId, task.stars, task.name, dateString, confirm]);
 
   return (
     <motion.button

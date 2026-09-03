@@ -19,6 +19,8 @@ export interface ConfirmOptions {
   cancelLabel?: string;
   /** Styles the confirm button as destructive. Defaults to true. */
   destructive?: boolean;
+  /** false turns this into an acknowledge-only alert. Defaults to true. */
+  showCancel?: boolean;
 }
 
 type ConfirmFn = (options: ConfirmOptions) => Promise<boolean>;
@@ -101,13 +103,15 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="mt-6 flex justify-end gap-2 border-t bg-muted/30 px-6 py-4">
-            <Button
-              variant="ghost"
-              onPress={() => settle(false)}
-              className="rounded-full text-sm normal-case tracking-normal"
-            >
-              {options.cancelLabel ?? "Cancel"}
-            </Button>
+            {(options.showCancel ?? true) && (
+              <Button
+                variant="ghost"
+                onPress={() => settle(false)}
+                className="rounded-full text-sm normal-case tracking-normal"
+              >
+                {options.cancelLabel ?? "Cancel"}
+              </Button>
+            )}
             <Button
               autoFocus
               onPress={() => settle(true)}

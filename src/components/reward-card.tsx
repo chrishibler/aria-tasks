@@ -12,6 +12,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { redeemReward } from "@/lib/actions/rewards";
+import { useConfirm } from "@/components/confirm-provider";
 import type { Reward } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -24,13 +25,32 @@ interface RewardCardProps {
 export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [justRedeemed, setJustRedeemed] = useState(false);
+  const confirm = useConfirm();
   const canAfford = balance >= reward.starCost;
   const progress = Math.min((balance / reward.starCost) * 100, 100);
 
   async function handleRedeem() {
     setShowConfirm(false);
+    // The server-side check is authoritative, so only celebrate once it passes.
+    const result = await redeemReward(
+      reward.id,
+      reward.name,
+      profileId,
+      reward.starCost
+    );
+
+    if (!result.ok) {
+      await confirm({
+        title: "Not enough stars",
+        description: `${reward.name} costs ${reward.starCost} stars and you have ${result.balance}. Earn ${result.shortfall} more and try again.`,
+        confirmLabel: "OK",
+        destructive: false,
+        showCancel: false,
+      });
+      return;
+    }
+
     setJustRedeemed(true);
-    await redeemReward(reward.id, reward.name, profileId, reward.starCost);
     setTimeout(() => setJustRedeemed(false), 2000);
   }
 
