@@ -11,6 +11,20 @@ function getCtx(): AudioContext | null {
       (window as unknown as { webkitAudioContext?: typeof AudioContext })
         .webkitAudioContext;
     if (!Ctor) return null;
+
+    // iOS puts Web Audio in the "ambient" audio session, which the physical
+    // ringer switch silences — unlike <audio> elements. Safari's AudioSession
+    // API lets us opt into "playback", which ignores the switch. Set before
+    // constructing the context; harmlessly absent on other browsers.
+    const nav = navigator as Navigator & { audioSession?: { type: string } };
+    if (nav.audioSession) {
+      try {
+        nav.audioSession.type = "playback";
+      } catch {
+        // Not fatal — we just stay subject to the ringer switch.
+      }
+    }
+
     audioCtx = new Ctor();
   }
   return audioCtx;
@@ -42,17 +56,9 @@ function playNote(
   osc.stop(startTime + duration + 0.05);
 }
 
-export function playSuccessSound() {
-  const ctx = getCtx();
-  if (!ctx) return;
-
-  // Some browsers suspend the context until a user gesture; this runs from a
-  // click handler, so resume() is allowed here.
-  if (ctx.state === "suspended") {
-    ctx.resume().catch(() => {});
-  }
-
-  const now = ctx.currentTime;
+function scheduleArpeggio(ctx: AudioContext) {
+  // Small lead-in: scheduling exactly at currentTime can clip the attack.
+  const now = ctx.currentTime + 0.02;
   // Major arpeggio: C5, E5, G5, C6 — bright and happy.
   const arpeggio = [523.25, 659.25, 783.99, 1046.5];
   arpeggio.forEach((freq, i) => {
@@ -61,4 +67,20 @@ export function playSuccessSound() {
 
   // A high sparkle to top it off.
   playNote(ctx, 1567.98, now + arpeggio.length * 0.08 + 0.02, 0.5, 0.09, "sine");
+}
+
+export function playSuccessSound() {
+  const ctx = getCtx();
+  if (!ctx) return;
+
+  // A suspended context's currentTime doesn't advance, so scheduling before
+  // resume() settles puts every note in the past and nothing is heard. resume()
+  // still has to be called from the gesture — it is, since this runs from the
+  // click handler — but the notes must wait for it.
+  if (ctx.state === "suspended") {
+    ctx.resume().then(() => scheduleArpeggio(ctx)).catch(() => {});
+    return;
+  }
+
+  scheduleArpeggio(ctx);
 }
