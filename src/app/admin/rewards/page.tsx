@@ -9,7 +9,7 @@ import { RewardForm } from "@/components/admin/reward-form";
 import { useRewards } from "@/lib/hooks/use-rewards";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { createReward, updateReward, deleteReward } from "@/lib/actions/admin";
-import { Plus, Pencil, Trash2, Star } from "lucide-react";
+import { PlusIcon, PencilIcon, TrashIcon, StarIcon } from "@heroicons/react/24/outline";
 import type { Reward } from "@/types";
 
 export default function AdminRewardsPage() {
@@ -54,8 +54,8 @@ export default function AdminRewardsPage() {
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Rewards</h2>
-        <Button onClick={() => { setEditing(undefined); setFormOpen(true); }} className="gap-1">
-          <Plus className="h-4 w-4" />
+        <Button onPress={() => { setEditing(undefined); setFormOpen(true); }} className="gap-1">
+          <PlusIcon className="h-4 w-4" />
           Add Reward
         </Button>
       </div>
@@ -77,20 +77,22 @@ export default function AdminRewardsPage() {
                   )}
                 </div>
                 <Badge variant="secondary" className="flex items-center gap-1">
-                  <Star className="h-3 w-3" />
+                  <StarIcon className="h-3 w-3" />
                   {reward.starCost}
                 </Badge>
-                <Switch
-                  checked={reward.available}
-                  onCheckedChange={() => handleToggleAvailable(reward)}
-                  title="Available"
-                />
+                <span title="Available">
+                  <Switch
+                    isSelected={reward.available}
+                    onChange={() => handleToggleAvailable(reward)}
+                    aria-label="Available"
+                  />
+                </span>
                 <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="sm" onClick={() => handleEdit(reward)}>
-                    <Pencil className="h-4 w-4" />
+                  <Button variant="ghost" size="sm" onPress={() => handleEdit(reward)}>
+                    <PencilIcon className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => handleDelete(reward.id)}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
+                  <Button variant="ghost" size="sm" onPress={() => handleDelete(reward.id)}>
+                    <TrashIcon className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>
               </CardContent>
@@ -100,6 +102,9 @@ export default function AdminRewardsPage() {
       )}
 
       <RewardForm
+        // Remount so the form re-seeds its state from `initial`, which is
+        // only read on mount.
+        key={editing?.id ?? "new"}
         open={formOpen}
         onOpenChange={(open) => { setFormOpen(open); if (!open) setEditing(undefined); }}
         onSubmit={handleSubmit}

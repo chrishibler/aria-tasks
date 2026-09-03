@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Pack lunch</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef8f2"/>
+<rect x="28" y="128" width="144" height="50" rx="8" fill="#b8e4c0"/>
+<rect x="28" y="110" width="144" height="24" rx="8" fill="#90c898"/>
+<rect x="78" y="130" width="24" height="10" rx="5" fill="#70a878"/>
+<ellipse cx="56" cy="102" rx="14" ry="10" fill="#f4b880"/>
+<rect x="85" y="90" width="22" height="18" rx="4" fill="#f4d880"/>
+<ellipse cx="130" cy="96" rx="18" ry="12" fill="#f4a0b8"/>
+<polygon points="48,168 78,138 108,168" fill="#f8d890"/>
+<polygon points="48,168 78,138 78,168" fill="#f4c870"/>
+<line x1="48" y1="158" x2="108" y2="158" stroke="#e8b840" stroke-width="2"/>
+<circle cx="125" cy="155" r="12" fill="#f07060"/>
+<line x1="125" y1="143" x2="125" y2="136" stroke="#60a840" stroke-width="2" stroke-linecap="round"/>
+</svg>

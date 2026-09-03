@@ -8,25 +8,25 @@ import { usePinAuth } from "@/lib/hooks/use-pin-auth";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
-  Home,
-  Users,
-  ListChecks,
-  Gift,
-  History,
-  Settings,
-  LogOut,
-  ArrowLeft,
-  Menu,
-  X,
-} from "lucide-react";
+  HomeIcon,
+  UsersIcon,
+  ClipboardDocumentListIcon,
+  GiftIcon,
+  ClockIcon,
+  Cog6ToothIcon,
+  ArrowRightStartOnRectangleIcon,
+  ArrowLeftIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: Home, exact: true },
-  { href: "/admin/profiles", label: "Profiles", icon: Users },
-  { href: "/admin/tasks", label: "Tasks", icon: ListChecks },
-  { href: "/admin/rewards", label: "Rewards", icon: Gift },
-  { href: "/admin/history", label: "History", icon: History },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin", label: "Dashboard", icon: HomeIcon, exact: true },
+  { href: "/admin/profiles", label: "Profiles", icon: UsersIcon },
+  { href: "/admin/tasks", label: "Tasks", icon: ClipboardDocumentListIcon },
+  { href: "/admin/rewards", label: "Rewards", icon: GiftIcon },
+  { href: "/admin/history", label: "History", icon: ClockIcon },
+  { href: "/admin/settings", label: "Settings", icon: Cog6ToothIcon },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -49,19 +49,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             className="md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {menuOpen ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
           </Button>
           <h1 className="text-lg font-bold text-gray-900">Admin</h1>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/tasks">
             <Button variant="outline" size="sm" className="gap-1">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeftIcon className="h-4 w-4" />
               <span className="hidden sm:inline">Family View</span>
             </Button>
           </Link>
           <Button variant="ghost" size="sm" onClick={logout}>
-            <LogOut className="h-4 w-4" />
+            <ArrowRightStartOnRectangleIcon className="h-4 w-4" />
           </Button>
         </div>
       </header>

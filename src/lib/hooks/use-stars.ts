@@ -14,7 +14,7 @@ export function useStars(profileId?: string) {
     let tasks: Task[] = [];
     let completions: Completion[] = [];
     let redemptions: Redemption[] = [];
-    let loaded = { tasks: false, completions: false, redemptions: false };
+    const loaded = { tasks: false, completions: false, redemptions: false };
 
     function recalculate() {
       if (!loaded.tasks || !loaded.completions || !loaded.redemptions) return;

@@ -5,40 +5,38 @@ import { useCompletions } from "@/lib/hooks/use-completions";
 import { useStars } from "@/lib/hooks/use-stars";
 import { useRedemptions } from "@/lib/hooks/use-redemptions";
 import { useProfiles } from "@/lib/hooks/use-profiles";
-import { useTasks } from "@/lib/hooks/use-tasks";
 import { PROFILE_COLORS } from "@/lib/constants";
-import { Star, CheckCircle, Gift, Users } from "lucide-react";
+import { StarIcon, CheckCircleIcon, GiftIcon, UsersIcon } from "@heroicons/react/24/outline";
 
 export default function AdminDashboard() {
   const { profiles } = useProfiles();
   const { balance, earned } = useStars();
   const { completions } = useCompletions({ todayOnly: true });
   const { redemptions } = useRedemptions();
-  const { tasks } = useTasks();
 
   const stats = [
     {
       label: "Total Stars Balance",
       value: balance,
-      icon: Star,
+      icon: StarIcon,
       color: "text-yellow-500",
     },
     {
       label: "Tasks Done Today",
       value: completions.length,
-      icon: CheckCircle,
+      icon: CheckCircleIcon,
       color: "text-green-500",
     },
     {
       label: "Total Stars Earned",
       value: earned,
-      icon: Star,
+      icon: StarIcon,
       color: "text-blue-500",
     },
     {
       label: "Total Redemptions",
       value: redemptions.length,
-      icon: Gift,
+      icon: GiftIcon,
       color: "text-indigo-500",
     },
   ];
@@ -67,7 +65,7 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <Users className="h-5 w-5" />
+              <UsersIcon className="h-5 w-5" />
               Profiles
             </CardTitle>
           </CardHeader>
@@ -97,7 +95,7 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <Gift className="h-5 w-5" />
+              <GiftIcon className="h-5 w-5" />
               Recent Redemptions
             </CardTitle>
           </CardHeader>

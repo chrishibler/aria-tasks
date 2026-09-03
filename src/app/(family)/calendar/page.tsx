@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CalendarView } from "@/components/calendar-view";
 import { useCompletions } from "@/lib/hooks/use-completions";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { useTasks } from "@/lib/hooks/use-tasks";
-import { PROFILE_COLORS } from "@/lib/constants";
+import { PROFILE_COLORS, illustrationSrc } from "@/lib/constants";
 import { getDateString } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 export default function CalendarPage() {
   const today = new Date();
@@ -66,11 +67,11 @@ export default function CalendarPage() {
       {/* Month navigation */}
       <div className="mb-4 flex items-center justify-between">
         <Button variant="ghost" size="icon" onClick={prevMonth}>
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeftIcon className="h-5 w-5" />
         </Button>
         <h2 className="text-lg font-bold">{monthName}</h2>
         <Button variant="ghost" size="icon" onClick={nextMonth}>
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRightIcon className="h-5 w-5" />
         </Button>
       </div>
 
@@ -119,7 +120,15 @@ export default function CalendarPage() {
                       const task = taskMap.get(c.taskId);
                       return (
                         <li key={c.id} className="flex items-center gap-2 text-sm">
-                          <span>{task?.emoji ?? "⭐"}</span>
+                          {task && (
+                            <Image
+                              src={illustrationSrc(task.illustration)}
+                              alt={task.name}
+                              width={24}
+                              height={24}
+                              className="rounded"
+                            />
+                          )}
                           <span>{task?.name ?? "Deleted task"}</span>
                           <span className="ml-auto text-xs text-muted-foreground">
                             +{task?.stars ?? 0}

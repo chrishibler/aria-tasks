@@ -1,6 +1,7 @@
 "use client";
 
 import { ProfileColumn } from "@/components/profile-column";
+import { ChoresColumn } from "@/components/chores-column";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -40,6 +41,7 @@ export default function TasksPage() {
       {profiles.map((profile) => (
         <ProfileColumn key={profile.id} profile={profile} />
       ))}
+      <ChoresColumn profiles={profiles} />
     </div>
   );
 }

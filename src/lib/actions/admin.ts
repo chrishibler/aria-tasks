@@ -63,7 +63,7 @@ export async function deleteProfile(id: string) {
 export async function createTask(data: {
   profileId: string;
   name: string;
-  emoji: string;
+  illustration: string;
   type: TaskType;
   timeSlot: TimeSlot | null;
   stars: number;
@@ -72,6 +72,7 @@ export async function createTask(data: {
 }) {
   await addDoc(tasksCollection, {
     ...data,
+    active: true,
     createdAt: serverTimestamp(),
   });
 }
@@ -80,11 +81,12 @@ export async function updateTask(
   id: string,
   data: Partial<{
     name: string;
-    emoji: string;
+    illustration: string;
     type: TaskType;
     timeSlot: TimeSlot | null;
     stars: number;
     repeatDays: DayOfWeek[];
+    active: boolean;
     order: number;
     profileId: string;
   }>

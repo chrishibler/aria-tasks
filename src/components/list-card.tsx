@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Plus, Trash2 } from "lucide-react";
+import { ChevronDownIcon, ChevronRightIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -47,9 +47,9 @@ export function ListCard({ list }: ListCardProps) {
         className="flex w-full items-center gap-3 p-4 text-left"
       >
         {expanded ? (
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+          <ChevronDownIcon className="h-4 w-4 text-muted-foreground" />
         ) : (
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          <ChevronRightIcon className="h-4 w-4 text-muted-foreground" />
         )}
         <span className="text-lg">{list.icon}</span>
         <span className="flex-1 font-semibold">{list.name}</span>
@@ -67,10 +67,8 @@ export function ListCard({ list }: ListCardProps) {
               {items.map((item) => (
                 <li key={item.id} className="flex items-center gap-2 py-1 group">
                   <Checkbox
-                    checked={item.checked}
-                    onCheckedChange={(checked) =>
-                      handleToggleItem(item.id, checked === true)
-                    }
+                    isSelected={item.checked}
+                    onChange={(checked) => handleToggleItem(item.id, checked)}
                   />
                   <span
                     className={cn(
@@ -84,9 +82,9 @@ export function ListCard({ list }: ListCardProps) {
                     variant="ghost"
                     size="icon"
                     className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => handleDeleteItem(item.id)}
+                    onPress={() => handleDeleteItem(item.id)}
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <TrashIcon className="h-3 w-3" />
                   </Button>
                 </li>
               ))}
@@ -100,8 +98,8 @@ export function ListCard({ list }: ListCardProps) {
               placeholder="Add item..."
               className="h-8 text-sm"
             />
-            <Button type="submit" size="icon" className="h-8 w-8 shrink-0" disabled={!newItemText.trim()}>
-              <Plus className="h-4 w-4" />
+            <Button type="submit" size="icon" className="h-8 w-8 shrink-0" isDisabled={!newItemText.trim()}>
+              <PlusIcon className="h-4 w-4" />
             </Button>
           </form>
         </div>

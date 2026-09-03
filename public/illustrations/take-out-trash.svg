@@ -1,0 +1,13 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Take out trash</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#fdeee8"/>
+<rect x="60" y="90" width="80" height="90" rx="6" fill="#d8c8b8"/>
+<rect x="52" y="78" width="96" height="16" rx="6" fill="#c8b8a8"/>
+<rect x="88" y="68" width="24" height="14" rx="4" fill="#b8a898"/>
+<ellipse cx="100" cy="92" rx="20" ry="8" fill="#9ab8a8"/>
+<rect x="64" y="92" width="72" height="82" rx="4" fill="#b8d4c4"/>
+<line x1="80" y1="90" x2="80" y2="178" stroke="#c0b0a0" stroke-width="2" opacity="0.5"/>
+<line x1="120" y1="90" x2="120" y2="178" stroke="#c0b0a0" stroke-width="2" opacity="0.5"/>
+<path d="M60 120 Q48 140 60 155" fill="none" stroke="#b8a898" stroke-width="4" stroke-linecap="round"/>
+<path d="M140 120 Q152 140 140 155" fill="none" stroke="#b8a898" stroke-width="4" stroke-linecap="round"/>
+</svg>

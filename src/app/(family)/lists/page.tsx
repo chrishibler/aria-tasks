@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
-  DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -35,7 +34,7 @@ export default function ListsPage() {
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-bold">Lists</h2>
         <Button size="sm" onClick={() => setShowCreate(true)} className="gap-1">
-          <Plus className="h-4 w-4" />
+          <PlusIcon className="h-4 w-4" />
           New List
         </Button>
       </div>
@@ -57,37 +56,35 @@ export default function ListsPage() {
         </div>
       )}
 
-      <Dialog open={showCreate} onOpenChange={setShowCreate}>
-        <DialogContent className="max-w-sm">
-          <DialogHeader>
-            <DialogTitle>New List</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleCreate} className="space-y-4">
-            <div className="flex gap-3">
-              <Input
-                value={newIcon}
-                onChange={(e) => setNewIcon(e.target.value)}
-                className="w-16 text-center text-xl"
-                maxLength={2}
-              />
-              <Input
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="List name"
-                required
-                className="flex-1"
-              />
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setShowCreate(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={!newName.trim()}>
-                Create
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
+      <Dialog isOpen={showCreate} onOpenChange={setShowCreate} className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>New List</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleCreate} className="space-y-4">
+          <div className="flex gap-3">
+            <Input
+              value={newIcon}
+              onChange={(e) => setNewIcon(e.target.value)}
+              className="w-16 text-center text-xl"
+              maxLength={2}
+            />
+            <Input
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="List name"
+              required
+              className="flex-1"
+            />
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onPress={() => setShowCreate(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" isDisabled={!newName.trim()}>
+              Create
+            </Button>
+          </DialogFooter>
+        </form>
       </Dialog>
     </div>
   );

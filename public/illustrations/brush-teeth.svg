@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Brush teeth</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef4fd"/>
+<rect x="45" y="100" width="90" height="45" rx="8" fill="#c2d8f5"/>
+<rect x="35" y="92" width="110" height="14" rx="4" fill="#a8c6ee"/>
+<rect x="83" y="70" width="14" height="30" rx="4" fill="#90b8e8"/>
+<rect x="76" y="66" width="28" height="8" rx="4" fill="#7aaad8"/>
+<rect x="55" y="75" width="8" height="35" rx="4" fill="#f4a0b8"/>
+<rect x="52" y="68" width="14" height="14" rx="3" fill="#f4a0b8"/>
+<rect x="54" y="69" width="10" height="2" rx="1" fill="white" opacity="0.7"/>
+<rect x="54" y="73" width="10" height="2" rx="1" fill="white" opacity="0.7"/>
+<rect x="54" y="77" width="10" height="2" rx="1" fill="white" opacity="0.7"/>
+<ellipse cx="90" cy="88" rx="10" ry="5" fill="#a8e6d0" opacity="0.9"/>
+<circle cx="110" cy="75" r="5" fill="white" opacity="0.6"/>
+<circle cx="120" cy="85" r="3" fill="white" opacity="0.5"/>
+<circle cx="102" cy="70" r="4" fill="white" opacity="0.5"/>
+</svg>

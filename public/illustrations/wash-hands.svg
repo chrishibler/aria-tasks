@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Wash hands</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef8f2"/>
+<rect x="45" y="95" width="90" height="50" rx="8" fill="#b2e4c8"/>
+<rect x="35" y="87" width="110" height="14" rx="4" fill="#9dd8b8"/>
+<rect x="83" y="62" width="14" height="32" rx="4" fill="#7cc8a0"/>
+<rect x="76" y="58" width="28" height="8" rx="4" fill="#68b88e"/>
+<ellipse cx="90" cy="98" rx="4" ry="7" fill="#74c4f0" opacity="0.8"/>
+<ellipse cx="95" cy="102" rx="3" ry="5" fill="#74c4f0" opacity="0.7"/>
+<ellipse cx="76" cy="120" rx="14" ry="10" fill="#f5c9a4"/>
+<ellipse cx="98" cy="120" rx="14" ry="10" fill="#f5c9a4"/>
+<circle cx="75" cy="108" r="6" fill="white" opacity="0.6"/>
+<circle cx="95" cy="105" r="4" fill="white" opacity="0.5"/>
+<circle cx="87" cy="102" r="5" fill="white" opacity="0.55"/>
+<rect x="50" y="138" width="30" height="14" rx="5" fill="#f4a0d0"/>
+</svg>

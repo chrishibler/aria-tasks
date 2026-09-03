@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Star, Check } from "lucide-react";
+import { StarIcon, CheckIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
   Dialog,
-  DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
@@ -49,7 +48,7 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
             <h3 className="text-base font-bold">{reward.name}</h3>
           </div>
           <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 fill-star text-star" />
+            <StarIcon className="h-4 w-4 text-star" />
             <span className="text-sm font-bold">{reward.starCost}</span>
           </div>
         </div>
@@ -63,7 +62,7 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
           <p className="mt-1.5 text-xs text-muted-foreground">
             {canAfford ? (
               <span className="flex items-center gap-1 text-primary font-medium">
-                <Check className="h-3 w-3" />
+                <CheckIcon className="h-3 w-3" />
                 Ready to redeem
               </span>
             ) : (
@@ -75,8 +74,8 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
         </div>
 
         <Button
-          onClick={() => setShowConfirm(true)}
-          disabled={!canAfford}
+          onPress={() => setShowConfirm(true)}
+          isDisabled={!canAfford}
           className={cn(
             "w-full rounded-lg text-sm font-semibold",
             canAfford ? "" : "opacity-50"
@@ -88,30 +87,28 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
 
         {justRedeemed && (
           <div className="mt-2 flex items-center justify-center gap-1 text-sm font-medium text-primary animate-check-in">
-            <Check className="h-4 w-4" />
+            <CheckIcon className="h-4 w-4" />
             Redeemed!
           </div>
         )}
       </div>
 
-      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
-        <DialogContent className="rounded-xl">
-          <DialogHeader>
-            <DialogTitle>Redeem Reward?</DialogTitle>
-            <DialogDescription>
-              Spend <strong>{reward.starCost} stars</strong> to get{" "}
-              <strong>{reward.name}</strong>?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex gap-2">
-            <Button variant="outline" onClick={() => setShowConfirm(false)} className="rounded-lg">
-              Cancel
-            </Button>
-            <Button onClick={handleRedeem} className="rounded-lg font-semibold">
-              Yes, redeem
-            </Button>
-          </DialogFooter>
-        </DialogContent>
+      <Dialog isOpen={showConfirm} onOpenChange={setShowConfirm} className="rounded-xl">
+        <DialogHeader>
+          <DialogTitle>Redeem Reward?</DialogTitle>
+          <DialogDescription>
+            Spend <strong>{reward.starCost} stars</strong> to get{" "}
+            <strong>{reward.name}</strong>?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex gap-2">
+          <Button variant="outline" onPress={() => setShowConfirm(false)} className="rounded-lg">
+            Cancel
+          </Button>
+          <Button onPress={handleRedeem} className="rounded-lg font-semibold">
+            Yes, redeem
+          </Button>
+        </DialogFooter>
       </Dialog>
     </>
   );

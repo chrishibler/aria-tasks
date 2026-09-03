@@ -1,0 +1,58 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Get dressed</title>
+<desc>A soft pastel illustration of a purple flowy dress and mary jane shoes representing the get dressed chore.</desc>
+
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#f4eefb"/>
+
+<!-- dress bodice -->
+<path d="M72 48 Q100 58 128 48 L134 100 Q100 108 66 100Z" fill="#c0a8e8"/>
+<!-- dress skirt flare -->
+<path d="M66 100 Q100 108 134 100 L148 168 Q100 178 52 168Z" fill="#d0bcf0"/>
+<!-- skirt overlay -->
+<path d="M72 110 Q100 116 128 110 L140 162 Q100 170 60 162Z" fill="#c0a8e8" opacity="0.4"/>
+
+<!-- collar / neckline -->
+<path d="M80 48 Q100 62 120 48" fill="none" stroke="#9878d0" stroke-width="2.5" stroke-linecap="round"/>
+
+<!-- left sleeve puff -->
+<ellipse cx="62" cy="55" rx="16" ry="12" fill="#c0a8e8"/>
+<ellipse cx="62" cy="65" rx="10" ry="6" fill="#d8c8f4"/>
+<!-- right sleeve puff -->
+<ellipse cx="138" cy="55" rx="16" ry="12" fill="#c0a8e8"/>
+<ellipse cx="138" cy="65" rx="10" ry="6" fill="#d8c8f4"/>
+
+<!-- waist bow -->
+<path d="M88 100 Q80 90 72 96 Q80 102 88 100Z" fill="#9070c8"/>
+<path d="M112 100 Q120 90 128 96 Q120 102 112 100Z" fill="#9070c8"/>
+<ellipse cx="100" cy="100" rx="8" ry="6" fill="#9070c8"/>
+<ellipse cx="100" cy="100" rx="4" ry="4" fill="#7858b0"/>
+
+<!-- polka dots -->
+<circle cx="85" cy="125" r="3.5" fill="#9070c8" opacity="0.6"/>
+<circle cx="100" cy="135" r="3.5" fill="#9070c8" opacity="0.6"/>
+<circle cx="115" cy="122" r="3.5" fill="#9070c8" opacity="0.6"/>
+<circle cx="92" cy="148" r="3.5" fill="#9070c8" opacity="0.6"/>
+<circle cx="108" cy="152" r="3.5" fill="#9070c8" opacity="0.6"/>
+<circle cx="78" cy="142" r="3" fill="#9070c8" opacity="0.5"/>
+<circle cx="122" cy="140" r="3" fill="#9070c8" opacity="0.5"/>
+
+<!-- mary jane left shoe -->
+<ellipse cx="72" cy="178" rx="22" ry="9" fill="#c0a8e8"/>
+<rect x="51" y="166" width="42" height="16" rx="8" fill="#d0bcf0"/>
+<rect x="55" y="163" width="34" height="7" rx="3" fill="#c0a8e8"/>
+<circle cx="82" cy="166" r="3" fill="#9070c8"/>
+<rect x="79" y="164" width="6" height="5" rx="1" fill="#7858b0"/>
+
+<!-- mary jane right shoe -->
+<ellipse cx="128" cy="178" rx="22" ry="9" fill="#c0a8e8"/>
+<rect x="107" y="166" width="42" height="16" rx="8" fill="#d0bcf0"/>
+<rect x="111" y="163" width="34" height="7" rx="3" fill="#c0a8e8"/>
+<circle cx="138" cy="166" r="3" fill="#9070c8"/>
+<rect x="135" y="164" width="6" height="5" rx="1" fill="#7858b0"/>
+
+<!-- sparkles -->
+<text x="148" y="68" font-size="13" font-family="sans-serif" fill="#b898e8">✦</text>
+<text x="38" y="75" font-size="10" font-family="sans-serif" fill="#b898e8">✦</text>
+<text x="155" y="130" font-size="9" font-family="sans-serif" fill="#b898e8">✦</text>
+
+</svg>

@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Star, Check, Sun, Cloud, Moon, Sparkles } from "lucide-react";
+import { useMemo, useState, useEffect, useRef } from "react";
+import { animate, motion, useMotionValue } from "framer-motion";
+import { Sunrise, Sun, MoonStar } from "lucide-react";
+import { StarIcon, CheckIcon, SparklesIcon } from "@heroicons/react/24/solid";
 import { TimeSlotGroup } from "./time-slot-group";
-import { TaskCard } from "./task-row";
 import { useCompletions } from "@/lib/hooks/use-completions";
 import { useTasks } from "@/lib/hooks/use-tasks";
 import { useStars } from "@/lib/hooks/use-stars";
@@ -13,14 +14,36 @@ import { getDayOfWeek, cn } from "@/lib/utils";
 import type { Profile, Task, Completion, TimeSlot } from "@/types";
 
 const columnBgColors: Record<string, string> = {
-  rose: "bg-rose-50/70",
-  sky: "bg-sky-50/70",
-  violet: "bg-violet-50/70",
-  amber: "bg-amber-50/70",
-  emerald: "bg-emerald-50/70",
-  orange: "bg-orange-50/70",
-  teal: "bg-teal-50/70",
-  pink: "bg-pink-50/70",
+  rose: "bg-rose-100/80",
+  sky: "bg-sky-100/70",
+  violet: "bg-violet-100/70",
+  amber: "bg-amber-100/70",
+  emerald: "bg-emerald-100/70",
+  orange: "bg-orange-100/70",
+  teal: "bg-teal-100/70",
+  pink: "bg-pink-100/70",
+};
+
+const headerBgColors: Record<string, string> = {
+  rose: "bg-rose-100",
+  sky: "bg-sky-100",
+  violet: "bg-violet-100",
+  amber: "bg-amber-100",
+  emerald: "bg-emerald-100",
+  orange: "bg-orange-100",
+  teal: "bg-teal-100",
+  pink: "bg-pink-100",
+};
+
+const filterIconBgColors: Record<string, string> = {
+  rose: "bg-rose-200/80 text-rose-700",
+  sky: "bg-sky-200/80 text-sky-700",
+  violet: "bg-violet-200/80 text-violet-700",
+  amber: "bg-amber-200/80 text-amber-700",
+  emerald: "bg-emerald-200/80 text-emerald-700",
+  orange: "bg-orange-200/80 text-orange-700",
+  teal: "bg-teal-200/80 text-teal-700",
+  pink: "bg-pink-200/80 text-pink-700",
 };
 
 const progressColors: Record<string, string> = {
@@ -34,13 +57,12 @@ const progressColors: Record<string, string> = {
   pink: "#ec4899",
 };
 
-type FilterSlot = "all" | TimeSlot | "chores";
+type FilterSlot = "all" | TimeSlot;
 
-const filterIcons = [
-  { slot: "morning" as const, Icon: Sun, label: "Morning" },
-  { slot: "afternoon" as const, Icon: Cloud, label: "Afternoon" },
-  { slot: "evening" as const, Icon: Moon, label: "Evening" },
-  { slot: "chores" as const, Icon: Sparkles, label: "Chores" },
+const filterItems = [
+  { slot: "morning" as const, Icon: Sunrise, label: "Morning", iconClass: "text-orange-500" },
+  { slot: "afternoon" as const, Icon: Sun, label: "Afternoon", iconClass: "text-amber-500" },
+  { slot: "evening" as const, Icon: MoonStar, label: "Evening", iconClass: "text-indigo-400" },
 ];
 
 function CircularProgress({
@@ -92,6 +114,47 @@ function CircularProgress({
   );
 }
 
+// Star total pill that ticks up (and pops) when the balance changes.
+function StarTotal({ value }: { value: number }) {
+  const [display, setDisplay] = useState(value);
+  const prev = useRef(value);
+  const scale = useMotionValue(1);
+
+  useEffect(() => {
+    const from = prev.current;
+    prev.current = value;
+    if (from === value) return;
+
+    const counter = animate(from, value, {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1], // fast start, gentle settle
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    });
+
+    // Celebratory pop only when it goes up.
+    if (value > from) {
+      animate(scale, [1, 1.3, 1], { duration: 0.4, ease: "easeOut" });
+    }
+
+    return () => counter.stop();
+  }, [value, scale]);
+
+  return (
+    <motion.div
+      style={{ scale }}
+      className="relative flex items-center gap-1.5 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 py-1 pl-2 pr-3 shadow-md ring-1 ring-amber-300/50"
+    >
+      <span className="relative flex items-center justify-center">
+        <StarIcon className="h-7 w-7 text-white drop-shadow-[0_1px_1px_rgba(180,120,0,0.5)]" />
+        <SparklesIcon className="absolute -right-1 -top-1 h-3 w-3 text-yellow-100" />
+      </span>
+      <span className="text-2xl font-extrabold text-white tabular-nums drop-shadow-[0_1px_1px_rgba(180,120,0,0.4)]">
+        {display}
+      </span>
+    </motion.div>
+  );
+}
+
 interface ProfileColumnProps {
   profile: Profile;
 }
@@ -107,16 +170,18 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
   const dayOfWeek = getDayOfWeek(date);
 
   const activeTasks = useMemo(
-    () => tasks.filter((t) => t.repeatDays.length === 0 || t.repeatDays.includes(dayOfWeek)),
+    () =>
+      tasks.filter(
+        (t) =>
+          t.active !== false &&
+          (t.repeatDays.length === 0 || t.repeatDays.includes(dayOfWeek))
+      ),
     [tasks, dayOfWeek]
   );
 
+  // Only routines live in the profile column now; chores have their own column.
   const routines = useMemo(
     () => activeTasks.filter((t) => t.type === "routine"),
-    [activeTasks]
-  );
-  const chores = useMemo(
-    () => activeTasks.filter((t) => t.type === "chore"),
     [activeTasks]
   );
 
@@ -137,8 +202,7 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
     morning: slotGroups.morning.length > 0,
     afternoon: slotGroups.afternoon.length > 0,
     evening: slotGroups.evening.length > 0,
-    chores: chores.length > 0,
-  }), [slotGroups, chores]);
+  }), [slotGroups]);
 
   const completionMap = useMemo(() => {
     const map = new Map<string, Completion>();
@@ -157,23 +221,20 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
       morning: calcProgress(slotGroups.morning),
       afternoon: calcProgress(slotGroups.afternoon),
       evening: calcProgress(slotGroups.evening),
-      chores: calcProgress(chores),
     };
-  }, [slotGroups, chores, completionMap]);
+  }, [slotGroups, completionMap]);
 
-  const completedCount = completions.length;
-  const totalCount = activeTasks.length;
+  const completedCount = routines.filter((t) => completionMap.has(t.id)).length;
+  const totalCount = routines.length;
 
   const slots: TimeSlot[] = ["morning", "afternoon", "evening"];
 
-  const showSlots = filter === "all" || (filter !== "chores");
-  const showChores = filter === "all" || filter === "chores";
   const ringColor = progressColors[profile.color];
 
   return (
-    <div className={cn("flex min-w-[300px] max-w-[400px] flex-1 flex-col", columnBgColors[profile.color])}>
+    <div className={cn("flex min-w-[300px] max-w-[400px] flex-1 flex-col rounded-2xl m-2", columnBgColors[profile.color])}>
       {/* Profile header */}
-      <div className="px-5 pt-5 pb-4">
+      <div className={cn("px-5 pt-5 pb-4", headerBgColors[profile.color], "rounded-t-2xl")}>
         <div className="flex items-center gap-3 mb-3">
           <div
             className={`flex h-10 w-10 items-center justify-center rounded-full ${colors.bg} ${colors.text} text-lg font-bold ring-2 ring-white shadow-sm`}
@@ -181,23 +242,12 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
             {profile.avatarInitial}
           </div>
           <h2 className="text-lg font-bold flex-1 truncate">{profile.name}</h2>
+          <StarTotal value={balance} />
         </div>
 
-        {/* Stats row */}
-        <div className="flex items-center gap-3 text-xs mb-4">
-          <span className="flex items-center gap-1 text-muted-foreground">
-            <Check className="h-3.5 w-3.5" />
-            {completedCount}/{totalCount}
-          </span>
-          <span className="flex items-center gap-1 font-semibold">
-            <Star className="h-3.5 w-3.5 fill-star text-star" />
-            {balance}
-          </span>
-        </div>
-
-        {/* Time-of-day filter icons with circular progress */}
-        <div className="flex gap-2">
-          {filterIcons.map(({ slot, Icon, label }) => {
+        {/* Time-of-day filter icons with circular progress + daily total */}
+        <div className="flex items-center gap-2">
+          {filterItems.map(({ slot, Icon, label, iconClass }) => {
             if (!hasSlotTasks[slot]) return null;
             const isActive = filter === slot;
             return (
@@ -215,54 +265,50 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
                     className={cn(
                       "flex h-[34px] w-[34px] items-center justify-center rounded-full transition-colors",
                       isActive
-                        ? `${colors.bg} ${colors.text}`
-                        : "bg-white/80 text-muted-foreground hover:bg-white"
+                        ? filterIconBgColors[profile.color]
+                        : "bg-white/60 hover:bg-white/90"
                     )}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className={cn("h-[18px] w-[18px]", iconClass)} />
                   </div>
                 </CircularProgress>
               </button>
             );
           })}
+          <div className="ml-auto relative flex items-center gap-1.5 overflow-hidden rounded-full bg-white/70 px-3 py-1 text-base font-bold ring-1 ring-black/5">
+            <motion.div
+              className="absolute inset-y-0 left-0"
+              style={{ backgroundColor: `${ringColor}40` }}
+              initial={false}
+              animate={{ width: `${totalCount > 0 ? (completedCount / totalCount) * 100 : 0}%` }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            />
+            <span className="relative z-10 flex items-center gap-1.5 text-foreground/70">
+              <CheckIcon className="h-5 w-5" />
+              {completedCount}/{totalCount}
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Task cards */}
       <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-5">
-        {showSlots &&
-          slots.map((slot) => {
-            if (filter !== "all" && filter !== slot) return null;
-            return (
-              <TimeSlotGroup
-                key={slot}
-                timeSlot={slot}
-                tasks={slotGroups[slot]}
-                completionMap={completionMap}
-                profileColor={profile.color}
-              />
-            );
-          })}
+        {slots.map((slot) => {
+          if (filter !== "all" && filter !== slot) return null;
+          return (
+            <TimeSlotGroup
+              key={slot}
+              timeSlot={slot}
+              tasks={slotGroups[slot]}
+              completionMap={completionMap}
+              profileColor={profile.color}
+            />
+          );
+        })}
 
-        {showChores && chores.length > 0 && (
-          <div>
-            <h3 className="mb-2 text-sm font-bold text-foreground/70">Chores</h3>
-            <div className="space-y-2">
-              {chores.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  completion={completionMap.get(task.id)}
-                  profileColor={profile.color}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTasks.length === 0 && (
+        {routines.length === 0 && (
           <p className="text-center text-sm text-muted-foreground py-8">
-            No tasks for today
+            No routines for today
           </p>
         )}
       </div>

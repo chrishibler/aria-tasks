@@ -1,0 +1,19 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Wipe the table</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef4fd"/>
+<rect x="15" y="110" width="170" height="60" rx="8" fill="#c8daf0"/>
+<rect x="15" y="110" width="170" height="16" rx="8" fill="#d8eaf8"/>
+<rect x="26" y="165" width="12" height="25" rx="4" fill="#b0c8e8"/>
+<rect x="162" y="165" width="12" height="25" rx="4" fill="#b0c8e8"/>
+<ellipse cx="90" cy="110" rx="30" ry="12" fill="#e8f4a0"/>
+<line x1="65" y1="110" x2="115" y2="110" stroke="#d8e480" stroke-width="2" stroke-linecap="round"/>
+<line x1="68" y1="116" x2="112" y2="116" stroke="#d8e480" stroke-width="2" stroke-linecap="round"/>
+<rect x="136" y="70" width="24" height="42" rx="6" fill="#90b8e8"/>
+<rect x="130" y="68" width="12" height="28" rx="4" fill="#78a4d8"/>
+<rect x="128" y="64" width="8" height="12" rx="3" fill="#90b8e8"/>
+<circle cx="122" cy="86" r="3" fill="#74c4f0" opacity="0.7"/>
+<circle cx="115" cy="92" r="2" fill="#74c4f0" opacity="0.6"/>
+<circle cx="116" cy="80" r="2" fill="#74c4f0" opacity="0.6"/>
+<circle cx="109" cy="88" r="3" fill="#74c4f0" opacity="0.65"/>
+<text x="162" y="118" font-size="12" font-family="sans-serif" fill="#74c4f0">✦</text>
+</svg>

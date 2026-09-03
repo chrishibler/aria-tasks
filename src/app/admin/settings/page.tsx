@@ -7,13 +7,16 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSettings } from "@/lib/hooks/use-settings";
 import { updateSettings } from "@/lib/actions/admin";
+import { getRotatingPin } from "@/lib/constants";
 
 export default function AdminSettingsPage() {
   const { settings, loading } = useSettings();
   const [familyName, setFamilyName] = useState("");
-  const [newPin, setNewPin] = useState("");
-  const [confirmPin, setConfirmPin] = useState("");
   const [saved, setSaved] = useState(false);
+  // Safe to read the local date during render: the admin layout gates on
+  // sessionStorage, whose server snapshot is always false, so this page is
+  // only ever rendered on the client.
+  const todayPin = getRotatingPin();
 
   if (!loading && familyName === "" && settings.familyName) {
     setFamilyName(settings.familyName);
@@ -22,17 +25,6 @@ export default function AdminSettingsPage() {
   async function handleSaveName(e: React.FormEvent) {
     e.preventDefault();
     await updateSettings({ familyName });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  }
-
-  async function handleSavePin(e: React.FormEvent) {
-    e.preventDefault();
-    if (newPin.length < 4) return;
-    if (newPin !== confirmPin) return;
-    await updateSettings({ pin: newPin });
-    setNewPin("");
-    setConfirmPin("");
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
@@ -57,7 +49,7 @@ export default function AdminSettingsPage() {
                 onChange={(e) => setFamilyName(e.target.value)}
               />
             </div>
-            <Button type="submit" disabled={!familyName.trim()}>
+            <Button type="submit" isDisabled={!familyName.trim()}>
               Save
             </Button>
           </form>
@@ -66,42 +58,25 @@ export default function AdminSettingsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Change PIN</CardTitle>
+          <CardTitle className="text-base">Parent PIN</CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSavePin} className="space-y-3">
-            <div>
-              <Label htmlFor="newPin">New PIN (4+ digits)</Label>
-              <Input
-                id="newPin"
-                type="password"
-                inputMode="numeric"
-                value={newPin}
-                onChange={(e) => setNewPin(e.target.value.replace(/\D/g, ""))}
-                maxLength={6}
-              />
-            </div>
-            <div>
-              <Label htmlFor="confirmPin">Confirm PIN</Label>
-              <Input
-                id="confirmPin"
-                type="password"
-                inputMode="numeric"
-                value={confirmPin}
-                onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ""))}
-                maxLength={6}
-              />
-              {newPin && confirmPin && newPin !== confirmPin && (
-                <p className="text-sm text-destructive mt-1">PINs don&apos;t match</p>
-              )}
-            </div>
-            <Button
-              type="submit"
-              disabled={newPin.length < 4 || newPin !== confirmPin}
-            >
-              Update PIN
-            </Button>
-          </form>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            The PIN changes every day. It is today&apos;s date: the two-digit day
+            followed by the two-digit month.
+          </p>
+          <div className="rounded-xl bg-muted px-4 py-3">
+            <span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Today&apos;s PIN
+            </span>
+            <span className="font-mono text-3xl font-bold tracking-[0.3em] text-foreground">
+              {todayPin}
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            It rolls over at midnight, so anyone who knows the date can work it
+            out — treat it as a speed bump rather than a lock.
+          </p>
         </CardContent>
       </Card>
 

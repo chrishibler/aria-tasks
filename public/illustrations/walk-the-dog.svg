@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Walk the dog</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#fdf8e8"/>
+<rect x="10" y="170" width="180" height="20" rx="4" fill="#e8dcc8"/>
+<path d="M90 110 Q110 130 125 160" fill="none" stroke="#c8b090" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="138" cy="158" rx="28" ry="18" fill="#e8c888"/>
+<circle cx="162" cy="142" r="16" fill="#e8c888"/>
+<ellipse cx="153" cy="134" rx="7" ry="12" fill="#d8a870" transform="rotate(-15 153 134)"/>
+<ellipse cx="172" cy="134" rx="7" ry="10" fill="#d8a870" transform="rotate(15 172 134)"/>
+<circle cx="158" cy="141" r="3" fill="#5a3a1a"/>
+<circle cx="167" cy="141" r="3" fill="#5a3a1a"/>
+<ellipse cx="163" cy="148" rx="4" ry="3" fill="#b87858"/>
+<path d="M110 152 Q95 130 105 115" fill="none" stroke="#e8c888" stroke-width="7" stroke-linecap="round"/>
+<rect x="120" y="168" width="10" height="16" rx="5" fill="#d8a870"/>
+<rect x="138" y="168" width="10" height="16" rx="5" fill="#d8a870"/>
+<rect x="150" y="168" width="10" height="16" rx="5" fill="#d8a870"/>
+<rect x="64" y="160" width="14" height="25" rx="5" fill="#a8c0e8"/>
+<rect x="84" y="162" width="14" height="23" rx="5" fill="#a8c0e8"/>
+<line x1="86" y1="110" x2="100" y2="118" stroke="#f5c9a4" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -14,7 +14,8 @@ import { useCompletions } from "@/lib/hooks/use-completions";
 import { useRedemptions } from "@/lib/hooks/use-redemptions";
 import { useTasks } from "@/lib/hooks/use-tasks";
 import { useProfiles } from "@/lib/hooks/use-profiles";
-import { PROFILE_COLORS } from "@/lib/constants";
+import { PROFILE_COLORS, illustrationSrc } from "@/lib/constants";
+import Image from "next/image";
 
 export default function AdminHistoryPage() {
   const { completions } = useCompletions({ todayOnly: false });
@@ -38,24 +39,23 @@ export default function AdminHistoryPage() {
     <div className="max-w-3xl">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">History</h2>
 
-      <Tabs defaultValue="earned">
+      <Tabs defaultSelectedKey="earned">
         <TabsList>
-          <TabsTrigger value="earned">Stars Earned</TabsTrigger>
-          <TabsTrigger value="redeemed">Rewards Redeemed</TabsTrigger>
+          <TabsTrigger id="earned">Stars Earned</TabsTrigger>
+          <TabsTrigger id="redeemed">Rewards Redeemed</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="earned">
+        <TabsContent id="earned">
           {sortedCompletions.length === 0 ? (
             <p className="text-gray-500 mt-4">No completions yet.</p>
           ) : (
-            <Table>
+            <Table aria-label="Stars earned">
+              {/* react-aria's TableHeader takes Columns directly — no Row wrapper. */}
               <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Profile</TableHead>
-                  <TableHead>Task</TableHead>
-                  <TableHead className="text-right">Stars</TableHead>
-                </TableRow>
+                <TableHead isRowHeader>Date</TableHead>
+                <TableHead>Profile</TableHead>
+                <TableHead>Task</TableHead>
+                <TableHead className="text-right">Stars</TableHead>
               </TableHeader>
               <TableBody>
                 {sortedCompletions.map((c) => {
@@ -76,8 +76,15 @@ export default function AdminHistoryPage() {
                       </TableCell>
                       <TableCell>
                         {task ? (
-                          <span>
-                            {task.emoji} {task.name}
+                          <span className="flex items-center gap-2">
+                            <Image
+                              src={illustrationSrc(task.illustration)}
+                              alt={task.name}
+                              width={24}
+                              height={24}
+                              className="rounded"
+                            />
+                            {task.name}
                           </span>
                         ) : (
                           "Deleted"
@@ -94,18 +101,16 @@ export default function AdminHistoryPage() {
           )}
         </TabsContent>
 
-        <TabsContent value="redeemed">
+        <TabsContent id="redeemed">
           {redemptions.length === 0 ? (
             <p className="text-gray-500 mt-4">No redemptions yet.</p>
           ) : (
-            <Table>
+            <Table aria-label="Rewards redeemed">
               <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Profile</TableHead>
-                  <TableHead>Reward</TableHead>
-                  <TableHead className="text-right">Stars Spent</TableHead>
-                </TableRow>
+                <TableHead isRowHeader>Date</TableHead>
+                <TableHead>Profile</TableHead>
+                <TableHead>Reward</TableHead>
+                <TableHead className="text-right">Stars Spent</TableHead>
               </TableHeader>
               <TableBody>
                 {redemptions.map((r) => {

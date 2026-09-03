@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Rake leaves</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#fdf8e8"/>
+<rect x="10" y="160" width="180" height="30" rx="4" fill="#d8c8a0"/>
+<ellipse cx="130" cy="162" rx="40" ry="14" fill="#d4a840"/>
+<ellipse cx="116" cy="158" rx="20" ry="10" fill="#e8b848" opacity="0.8"/>
+<ellipse cx="144" cy="158" rx="18" ry="9" fill="#c89838" opacity="0.8"/>
+<ellipse cx="68" cy="152" rx="10" ry="7" fill="#e8b040" transform="rotate(20 68 152)"/>
+<ellipse cx="85" cy="146" rx="8" ry="6" fill="#d49830" transform="rotate(-15 85 146)"/>
+<ellipse cx="56" cy="160" rx="9" ry="6" fill="#e8c050" transform="rotate(10 56 160)"/>
+<line x1="80" y1="55" x2="110" y2="160" stroke="#b88840" stroke-width="6" stroke-linecap="round"/>
+<rect x="95" y="153" width="70" height="10" rx="4" fill="#a87830"/>
+<line x1="98" y1="162" x2="96" y2="180" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+<line x1="106" y1="161" x2="104" y2="179" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+<line x1="114" y1="161" x2="112" y2="179" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+<line x1="122" y1="161" x2="120" y2="179" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+<line x1="130" y1="162" x2="128" y2="180" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+<line x1="138" y1="163" x2="136" y2="181" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+<line x1="146" y1="164" x2="144" y2="182" stroke="#a07028" stroke-width="3" stroke-linecap="round"/>
+</svg>

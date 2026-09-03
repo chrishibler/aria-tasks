@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Vacuum</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef8f2"/>
+<rect x="10" y="165" width="180" height="20" rx="4" fill="#d8edd8"/>
+<ellipse cx="110" cy="120" rx="35" ry="28" fill="#90c890"/>
+<ellipse cx="110" cy="120" rx="26" ry="20" fill="#70b070"/>
+<circle cx="120" cy="110" r="5" fill="#90f890" opacity="0.8"/>
+<line x1="110" y1="95" x2="90" y2="55" stroke="#a0c8a0" stroke-width="8" stroke-linecap="round"/>
+<rect x="76" y="45" width="28" height="14" rx="7" fill="#80b880"/>
+<path d="M75 103 Q50 130 48 165" fill="none" stroke="#b8d8b8" stroke-width="6" stroke-linecap="round"/>
+<rect x="28" y="158" width="60" height="12" rx="6" fill="#80b880"/>
+<circle cx="90" cy="145" r="7" fill="#70a870"/>
+<circle cx="130" cy="145" r="7" fill="#70a870"/>
+</svg>

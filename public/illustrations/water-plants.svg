@@ -1,0 +1,19 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Water plants</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef8f2"/>
+<rect x="64" y="140" width="72" height="48" rx="6" fill="#d4a870"/>
+<rect x="58" y="134" width="84" height="12" rx="4" fill="#c09060"/>
+<ellipse cx="100" cy="138" rx="36" ry="8" fill="#8a6448"/>
+<line x1="100" y1="138" x2="100" y2="85" stroke="#68b050" stroke-width="5" stroke-linecap="round"/>
+<path d="M100 115 Q75 98 68 78" fill="none" stroke="#78c060" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="64" cy="74" rx="18" ry="12" fill="#88d070" transform="rotate(-30 64 74)"/>
+<path d="M100 100 Q125 85 130 68" fill="none" stroke="#78c060" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="134" cy="64" rx="18" ry="12" fill="#88d070" transform="rotate(30 134 64)"/>
+<ellipse cx="100" cy="83" rx="16" ry="20" fill="#98e080" transform="rotate(-5 100 83)"/>
+<rect x="130" y="105" width="44" height="34" rx="8" fill="#74c4f0"/>
+<path d="M130 120 Q110 122 103 138" fill="none" stroke="#60b0e0" stroke-width="5" stroke-linecap="round"/>
+<circle cx="98" cy="142" r="3" fill="#74c4f0" opacity="0.8"/>
+<circle cx="105" cy="148" r="2" fill="#74c4f0" opacity="0.7"/>
+<circle cx="94" cy="150" r="2" fill="#74c4f0" opacity="0.7"/>
+<path d="M174 107 Q186 121 174 133" fill="none" stroke="#60b0e0" stroke-width="4" stroke-linecap="round"/>
+</svg>

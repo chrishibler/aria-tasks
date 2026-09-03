@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Dialog,
-  DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -66,71 +65,69 @@ export function ProfileForm({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm">
-        <DialogHeader>
-          <DialogTitle>{initial ? "Edit Profile" : "New Profile"}</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="profileName">Name</Label>
-            <Input
-              id="profileName"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Aria"
-              required
-            />
+    <Dialog isOpen={open} onOpenChange={onOpenChange} className="max-w-sm">
+      <DialogHeader>
+        <DialogTitle>{initial ? "Edit Profile" : "New Profile"}</DialogTitle>
+      </DialogHeader>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="profileName">Name</Label>
+          <Input
+            id="profileName"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Aria"
+            required
+          />
+        </div>
+
+        <div>
+          <Label>Color</Label>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {colorOptions.map((c) => {
+              const colors = PROFILE_COLORS[c];
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setColor(c)}
+                  className={cn(
+                    "h-8 w-8 rounded-full transition-all",
+                    colors.bg,
+                    color === c ? "ring-2 ring-offset-2" : "hover:scale-110"
+                  )}
+                  style={color === c ? { "--tw-ring-color": colors.hex } as React.CSSProperties : undefined}
+                />
+              );
+            })}
           </div>
+        </div>
 
-          <div>
-            <Label>Color</Label>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {colorOptions.map((c) => {
-                const colors = PROFILE_COLORS[c];
-                return (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setColor(c)}
-                    className={cn(
-                      "h-8 w-8 rounded-full transition-all",
-                      colors.bg,
-                      color === c ? "ring-2 ring-offset-2" : "hover:scale-110"
-                    )}
-                    style={color === c ? { "--tw-ring-color": colors.hex } as React.CSSProperties : undefined}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Preview */}
-          {name && (
-            <div className="flex items-center gap-3 rounded-lg bg-muted p-3">
-              <div
-                className={`flex h-10 w-10 items-center justify-center rounded-full ${PROFILE_COLORS[color].bg} ${PROFILE_COLORS[color].text} text-lg font-bold`}
-              >
-                {getProfileInitial(name)}
-              </div>
-              <span className="font-semibold">{name}</span>
-            </div>
-          )}
-
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
+        {/* Preview */}
+        {name && (
+          <div className="flex items-center gap-3 rounded-lg bg-muted p-3">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full ${PROFILE_COLORS[color].bg} ${PROFILE_COLORS[color].text} text-lg font-bold`}
             >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={!name.trim()}>
-              {initial ? "Save" : "Create"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+              {getProfileInitial(name)}
+            </div>
+            <span className="font-semibold">{name}</span>
+          </div>
+        )}
+
+        <DialogFooter>
+          <Button
+            type="button"
+            variant="outline"
+            onPress={() => onOpenChange(false)}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" isDisabled={!name.trim()}>
+            {initial ? "Save" : "Create"}
+          </Button>
+        </DialogFooter>
+      </form>
     </Dialog>
   );
 }

@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Sweep floor</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#f4eefb"/>
+<rect x="10" y="160" width="180" height="30" rx="4" fill="#e0d4f0"/>
+<ellipse cx="128" cy="162" rx="22" ry="6" fill="#c8bce0"/>
+<line x1="75" y1="65" x2="138" y2="160" stroke="#c8a880" stroke-width="6" stroke-linecap="round"/>
+<ellipse cx="145" cy="166" rx="30" ry="10" fill="#d4a870"/>
+<line x1="118" y1="160" x2="172" y2="160" stroke="#c89850" stroke-width="3" stroke-linecap="round"/>
+<line x1="120" y1="173" x2="170" y2="173" stroke="#c89850" stroke-width="3" stroke-linecap="round"/>
+<line x1="120" y1="160" x2="118" y2="178" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<line x1="128" y1="159" x2="126" y2="177" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<line x1="136" y1="158" x2="134" y2="176" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<line x1="144" y1="158" x2="142" y2="176" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<line x1="152" y1="159" x2="150" y2="177" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<line x1="160" y1="160" x2="158" y2="178" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<line x1="168" y1="161" x2="166" y2="179" stroke="#b88840" stroke-width="2" stroke-linecap="round"/>
+<circle cx="95" cy="152" r="3" fill="#c8bce0" opacity="0.7"/>
+<circle cx="108" cy="146" r="2" fill="#c8bce0" opacity="0.6"/>
+<circle cx="120" cy="150" r="3" fill="#c8bce0" opacity="0.65"/>
+</svg>

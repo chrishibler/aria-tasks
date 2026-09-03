@@ -7,7 +7,7 @@ import { ProfileForm } from "@/components/admin/profile-form";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { createProfile, updateProfile, deleteProfile } from "@/lib/actions/admin";
 import { PROFILE_COLORS } from "@/lib/constants";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Profile, ProfileColor } from "@/types";
 
 export default function AdminProfilesPage() {
@@ -51,7 +51,7 @@ export default function AdminProfilesPage() {
           }}
           className="gap-1"
         >
-          <Plus className="h-4 w-4" />
+          <PlusIcon className="h-4 w-4" />
           Add Profile
         </Button>
       </div>
@@ -78,10 +78,10 @@ export default function AdminProfilesPage() {
                   </div>
                   <div className="flex items-center gap-1">
                     <Button variant="ghost" size="sm" onClick={() => handleEdit(profile)}>
-                      <Pencil className="h-4 w-4" />
+                      <PencilIcon className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => handleDelete(profile.id)}>
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <TrashIcon className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
                 </CardContent>
@@ -92,6 +92,9 @@ export default function AdminProfilesPage() {
       )}
 
       <ProfileForm
+        // Remount so the form re-seeds its state from `initial`, which is
+        // only read on mount.
+        key={editing?.id ?? "new"}
         open={formOpen}
         onOpenChange={(open) => {
           setFormOpen(open);

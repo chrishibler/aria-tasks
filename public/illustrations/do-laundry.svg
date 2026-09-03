@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Do laundry</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef4fd"/>
+<rect x="28" y="38" width="144" height="132" rx="10" fill="#d0e0f4"/>
+<rect x="28" y="38" width="144" height="28" rx="10" fill="#b8cce8"/>
+<circle cx="52" cy="52" r="8" fill="#90aed8"/>
+<circle cx="75" cy="52" r="6" fill="#90aed8"/>
+<circle cx="148" cy="52" r="8" fill="#f4b8a0"/>
+<circle cx="100" cy="110" r="36" fill="#a8c0e0"/>
+<circle cx="100" cy="110" r="30" fill="#c8daf0"/>
+<ellipse cx="90" cy="100" rx="14" ry="10" fill="#f4b8a0" opacity="0.8" transform="rotate(-20 90 100)"/>
+<ellipse cx="112" cy="118" rx="12" ry="8" fill="#a8e8c0" opacity="0.8" transform="rotate(15 112 118)"/>
+<ellipse cx="86" cy="122" rx="10" ry="7" fill="#f4d080" opacity="0.8" transform="rotate(30 86 122)"/>
+<circle cx="80" cy="86" r="5" fill="white" opacity="0.5"/>
+<circle cx="118" cy="92" r="4" fill="white" opacity="0.5"/>
+<circle cx="104" cy="80" r="6" fill="white" opacity="0.45"/>
+</svg>

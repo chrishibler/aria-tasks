@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Lock, Delete, ArrowLeft } from "lucide-react";
+import { LockClosedIcon, BackspaceIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -47,7 +47,7 @@ export function PinModal({ onVerify }: PinModalProps) {
         href="/"
         className="absolute left-4 top-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeftIcon className="h-4 w-4" />
         Back
       </Link>
 
@@ -57,7 +57,7 @@ export function PinModal({ onVerify }: PinModalProps) {
         className="flex w-full max-w-xs flex-col items-center gap-6"
       >
         <div className="rounded-full bg-muted p-4">
-          <Lock className="h-8 w-8 text-muted-foreground" />
+          <LockClosedIcon className="h-8 w-8 text-muted-foreground" />
         </div>
         <h2 className="text-xl font-bold text-foreground">Parent Access</h2>
 
@@ -90,8 +90,8 @@ export function PinModal({ onVerify }: PinModalProps) {
               key={digit}
               variant="outline"
               className="h-16 text-2xl font-bold rounded-xl"
-              onClick={() => handleDigit(digit)}
-              disabled={checking}
+              onPress={() => handleDigit(digit)}
+              isDisabled={checking}
             >
               {digit}
             </Button>
@@ -99,23 +99,23 @@ export function PinModal({ onVerify }: PinModalProps) {
           <Button
             variant="ghost"
             className="h-16 rounded-xl"
-            onClick={handleDelete}
-            disabled={checking}
+            onPress={handleDelete}
+            isDisabled={checking}
           >
-            <Delete className="h-6 w-6" />
+            <BackspaceIcon className="h-6 w-6" />
           </Button>
           <Button
             variant="outline"
             className="h-16 text-2xl font-bold rounded-xl"
-            onClick={() => handleDigit("0")}
-            disabled={checking}
+            onPress={() => handleDigit("0")}
+            isDisabled={checking}
           >
             0
           </Button>
           <Button
             className="h-16 rounded-xl font-bold"
-            onClick={handleSubmit}
-            disabled={pin.length < 4 || checking}
+            onPress={handleSubmit}
+            isDisabled={pin.length < 4 || checking}
           >
             {checking ? "..." : "OK"}
           </Button>

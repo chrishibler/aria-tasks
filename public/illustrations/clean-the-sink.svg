@@ -1,0 +1,18 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Clean the sink</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#fdeee8"/>
+<rect x="25" y="100" width="150" height="70" rx="12" fill="#e8d0c0"/>
+<rect x="20" y="92" width="160" height="16" rx="5" fill="#d8c0b0"/>
+<rect x="83" y="68" width="14" height="28" rx="4" fill="#d0a888"/>
+<rect x="76" y="62" width="28" height="10" rx="5" fill="#c09878"/>
+<rect x="42" y="106" width="80" height="18" rx="6" fill="#f4a0d0"/>
+<line x1="48" y1="113" x2="116" y2="113" stroke="#e480b8" stroke-width="2" stroke-linecap="round"/>
+<line x1="48" y1="119" x2="116" y2="119" stroke="#e480b8" stroke-width="2" stroke-linecap="round"/>
+<text x="148" y="100" font-size="13" font-family="sans-serif" fill="#f4a0d0">✦</text>
+<text x="157" y="90" font-size="9" font-family="sans-serif" fill="#f4a0d0">✦</text>
+<circle cx="52" cy="140" r="6" fill="white" opacity="0.6"/>
+<circle cx="68" cy="135" r="4" fill="white" opacity="0.5"/>
+<circle cx="82" cy="142" r="5" fill="white" opacity="0.55"/>
+<circle cx="100" cy="156" r="6" fill="#c0a898"/>
+<circle cx="100" cy="156" r="3" fill="#b09888"/>
+</svg>

@@ -34,11 +34,12 @@ export interface Task {
   id: string;
   profileId: string;
   name: string;
-  emoji: string;
+  illustration: string; // name of SVG in /public/illustrations
   type: TaskType;
   timeSlot: TimeSlot | null; // null for chores
   stars: number;
   repeatDays: DayOfWeek[];
+  active: boolean; // when false, hidden from kids' view (completions kept)
   order: number;
   createdAt: Timestamp;
 }
@@ -99,6 +100,6 @@ export interface ListItem {
 // --- Settings ---
 
 export interface Settings {
-  pin: string;
+  // The parent PIN is not stored: it rotates daily, see getRotatingPin().
   familyName: string;
 }

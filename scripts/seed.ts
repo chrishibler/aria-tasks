@@ -39,10 +39,9 @@ async function seed() {
 
   // Settings
   await setDoc(doc(db, "settings", "main"), {
-    pin: "1234",
     familyName: "Our Family",
   });
-  console.log("Settings created (PIN: 1234)");
+  console.log("Settings created (PIN rotates daily: DDMM)");
 
   // Profiles
   const profiles = [
@@ -63,27 +62,28 @@ async function seed() {
   // Tasks for Aria
   const ariaTasks = [
     // Morning routines
-    { name: "Brush teeth", emoji: "🪥", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 0 },
-    { name: "Get dressed", emoji: "👕", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 1 },
-    { name: "Make bed", emoji: "🛏️", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 2 },
-    { name: "Pack backpack", emoji: "🎒", type: "routine", timeSlot: "morning", stars: 2, repeatDays: WEEKDAYS, order: 3 },
+    { name: "Brush teeth", illustration: "brush-teeth", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 0 },
+    { name: "Wash hands", illustration: "wash-hands", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 1 },
+    { name: "Make bed", illustration: "make-bed", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 2 },
+    { name: "Pack lunch", illustration: "pack-lunch", type: "routine", timeSlot: "morning", stars: 2, repeatDays: WEEKDAYS, order: 3 },
     // Afternoon routines
-    { name: "Homework", emoji: "✏️", type: "routine", timeSlot: "afternoon", stars: 3, repeatDays: WEEKDAYS, order: 4 },
-    { name: "Reading", emoji: "📚", type: "routine", timeSlot: "afternoon", stars: 2, repeatDays: ALL_DAYS, order: 5 },
-    { name: "Practice music", emoji: "🎵", type: "routine", timeSlot: "afternoon", stars: 2, repeatDays: WEEKDAYS, order: 6 },
+    { name: "Unpack backpack", illustration: "unpack-backpack", type: "routine", timeSlot: "afternoon", stars: 2, repeatDays: WEEKDAYS, order: 4 },
+    { name: "Feed pet", illustration: "feed-pet", type: "routine", timeSlot: "afternoon", stars: 2, repeatDays: ALL_DAYS, order: 5 },
+    { name: "Set the table", illustration: "set-the-table", type: "routine", timeSlot: "afternoon", stars: 2, repeatDays: ALL_DAYS, order: 6 },
     // Evening routines
-    { name: "Bath time", emoji: "🛁", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 7 },
-    { name: "Brush teeth", emoji: "🪥", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 8 },
-    { name: "Bedtime", emoji: "💤", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 9 },
+    { name: "Shower", illustration: "shower", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 7 },
+    { name: "Brush teeth", illustration: "brush-teeth", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 8 },
+    { name: "Put away toys", illustration: "put-away-toys", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 9 },
     // Chores
-    { name: "Tidy room", emoji: "🧸", type: "chore", timeSlot: null, stars: 3, repeatDays: ALL_DAYS, order: 10 },
-    { name: "Set table", emoji: "🍽️", type: "chore", timeSlot: null, stars: 2, repeatDays: ALL_DAYS, order: 11 },
-    { name: "Water plants", emoji: "🌱", type: "chore", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 12 },
+    { name: "Clean room", illustration: "clean-room", type: "chore", timeSlot: null, stars: 3, repeatDays: ALL_DAYS, order: 10 },
+    { name: "Water plants", illustration: "water-plants", type: "chore", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 11 },
+    { name: "Take out trash", illustration: "take-out-trash", type: "chore", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 12 },
   ];
 
   for (const task of ariaTasks) {
     await addDoc(collection(db, "tasks"), {
       ...task,
+      active: true,
       profileId: profileIds[0],
       createdAt: serverTimestamp(),
     });
@@ -92,19 +92,20 @@ async function seed() {
 
   // Tasks for Leo
   const leoTasks = [
-    { name: "Brush teeth", emoji: "🪥", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 0 },
-    { name: "Get dressed", emoji: "👕", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 1 },
-    { name: "Shoes away", emoji: "👟", type: "routine", timeSlot: "afternoon", stars: 1, repeatDays: ALL_DAYS, order: 2 },
-    { name: "Drink water", emoji: "🥤", type: "routine", timeSlot: "afternoon", stars: 1, repeatDays: ALL_DAYS, order: 3 },
-    { name: "Bath time", emoji: "🛁", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 4 },
-    { name: "Brush teeth", emoji: "🪥", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 5 },
-    { name: "Bedtime", emoji: "💤", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 6 },
-    { name: "Clean up toys", emoji: "🧹", type: "chore", timeSlot: null, stars: 2, repeatDays: ALL_DAYS, order: 7 },
+    { name: "Brush teeth", illustration: "brush-teeth", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 0 },
+    { name: "Wash hands", illustration: "wash-hands", type: "routine", timeSlot: "morning", stars: 1, repeatDays: ALL_DAYS, order: 1 },
+    { name: "Put away toys", illustration: "put-away-toys", type: "routine", timeSlot: "afternoon", stars: 1, repeatDays: ALL_DAYS, order: 2 },
+    { name: "Feed pet", illustration: "feed-pet", type: "routine", timeSlot: "afternoon", stars: 1, repeatDays: ALL_DAYS, order: 3 },
+    { name: "Shower", illustration: "shower", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 4 },
+    { name: "Brush teeth", illustration: "brush-teeth", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 5 },
+    { name: "Put away toys", illustration: "put-away-toys", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 6 },
+    { name: "Sweep floor", illustration: "sweep-floor", type: "chore", timeSlot: null, stars: 2, repeatDays: ALL_DAYS, order: 7 },
   ];
 
   for (const task of leoTasks) {
     await addDoc(collection(db, "tasks"), {
       ...task,
+      active: true,
       profileId: profileIds[1],
       createdAt: serverTimestamp(),
     });
