@@ -18,6 +18,7 @@ import {
   rewardsCollection,
   listsCollection,
   listItemsCollection,
+  adjustmentsCollection,
   settingsDoc,
 } from "../collections";
 import type { Settings, ProfileColor, TaskType, TimeSlot, DayOfWeek } from "@/types";
@@ -53,6 +54,12 @@ export async function deleteProfile(id: string) {
   // Delete associated completions
   const completionsSnap = await getDocs(query(completionsCollection, where("profileId", "==", id)));
   completionsSnap.docs.forEach((d) => batch.delete(d.ref));
+
+  // Delete associated star adjustments
+  const adjustmentsSnap = await getDocs(
+    query(adjustmentsCollection, where("profileId", "==", id))
+  );
+  adjustmentsSnap.docs.forEach((d) => batch.delete(d.ref));
 
   batch.delete(doc(db, "profiles", id));
   await batch.commit();

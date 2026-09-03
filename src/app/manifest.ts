@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Aria's Tasks",
     short_name: "Tasks",
-    description: "Family routines, chores, stars and rewards.",
+    description: "Family routines, dailies, stars and rewards.",
     // "/" redirects to /tasks, so launch straight into the family view.
     start_url: "/tasks",
     scope: "/",

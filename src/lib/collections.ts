@@ -6,6 +6,7 @@ export const tasksCollection = collection(db, "tasks");
 export const completionsCollection = collection(db, "completions");
 export const rewardsCollection = collection(db, "rewards");
 export const redemptionsCollection = collection(db, "redemptions");
+export const adjustmentsCollection = collection(db, "adjustments");
 export const listsCollection = collection(db, "lists");
 export const listItemsCollection = collection(db, "listItems");
 export const settingsDoc = doc(db, "settings", "main");

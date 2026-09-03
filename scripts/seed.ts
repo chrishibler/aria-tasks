@@ -74,10 +74,10 @@ async function seed() {
     { name: "Shower", illustration: "shower", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 7 },
     { name: "Brush teeth", illustration: "brush-teeth", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 8 },
     { name: "Put away toys", illustration: "put-away-toys", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 9 },
-    // Chores
-    { name: "Clean room", illustration: "clean-room", type: "chore", timeSlot: null, stars: 3, repeatDays: ALL_DAYS, order: 10 },
-    { name: "Water plants", illustration: "water-plants", type: "chore", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 11 },
-    { name: "Take out trash", illustration: "take-out-trash", type: "chore", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 12 },
+    // Dailies
+    { name: "Clean room", illustration: "clean-room", type: "daily", timeSlot: null, stars: 3, repeatDays: ALL_DAYS, order: 10 },
+    { name: "Water plants", illustration: "water-plants", type: "daily", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 11 },
+    { name: "Take out trash", illustration: "take-out-trash", type: "daily", timeSlot: null, stars: 2, repeatDays: ["mon", "thu"], order: 12 },
   ];
 
   for (const task of ariaTasks) {
@@ -99,7 +99,7 @@ async function seed() {
     { name: "Shower", illustration: "shower", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 4 },
     { name: "Brush teeth", illustration: "brush-teeth", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 5 },
     { name: "Put away toys", illustration: "put-away-toys", type: "routine", timeSlot: "evening", stars: 1, repeatDays: ALL_DAYS, order: 6 },
-    { name: "Sweep floor", illustration: "sweep-floor", type: "chore", timeSlot: null, stars: 2, repeatDays: ALL_DAYS, order: 7 },
+    { name: "Sweep floor", illustration: "sweep-floor", type: "daily", timeSlot: null, stars: 2, repeatDays: ALL_DAYS, order: 7 },
   ];
 
   for (const task of leoTasks) {

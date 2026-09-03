@@ -25,7 +25,7 @@ const SECTIONS: { key: string; label: string; match: (t: Task) => boolean }[] = 
   { key: "morning", label: TIME_SLOTS.morning.label, match: (t) => t.type === "routine" && t.timeSlot === "morning" },
   { key: "afternoon", label: TIME_SLOTS.afternoon.label, match: (t) => t.type === "routine" && t.timeSlot === "afternoon" },
   { key: "evening", label: TIME_SLOTS.evening.label, match: (t) => t.type === "routine" && t.timeSlot === "evening" },
-  { key: "chore", label: "Chores", match: (t) => t.type === "chore" },
+  { key: "daily", label: "Dailies", match: (t) => t.type === "daily" },
 ];
 
 export default function AdminTasksPage() {
@@ -161,7 +161,7 @@ export default function AdminTasksPage() {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Tasks</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Routines and chores, grouped by when they appear in the family view.
+            Routines and dailies, grouped by when they appear in the family view.
           </p>
         </div>
         <Button

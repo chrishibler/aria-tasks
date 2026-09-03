@@ -2,22 +2,31 @@
 
 import { useState, useEffect } from "react";
 import { onSnapshot, query, where, type QueryConstraint } from "firebase/firestore";
-import { completionsCollection, tasksCollection, redemptionsCollection } from "../collections";
-import type { Task, Completion, Redemption } from "@/types";
+import {
+  completionsCollection,
+  tasksCollection,
+  redemptionsCollection,
+  adjustmentsCollection,
+} from "../collections";
+import type { Task, Completion, Redemption, Adjustment } from "@/types";
 
 export function useStars(profileId?: string) {
   const [earned, setEarned] = useState(0);
   const [spent, setSpent] = useState(0);
+  const [adjusted, setAdjusted] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let tasks: Task[] = [];
     let completions: Completion[] = [];
     let redemptions: Redemption[] = [];
-    const loaded = { tasks: false, completions: false, redemptions: false };
+    let adjustments: Adjustment[] = [];
+    const loaded = { tasks: false, completions: false, redemptions: false, adjustments: false };
 
     function recalculate() {
-      if (!loaded.tasks || !loaded.completions || !loaded.redemptions) return;
+      if (!loaded.tasks || !loaded.completions || !loaded.redemptions || !loaded.adjustments) {
+        return;
+      }
 
       const taskStarMap = new Map(tasks.map((t) => [t.id, t.stars]));
       const totalEarned = completions.reduce(
@@ -25,9 +34,11 @@ export function useStars(profileId?: string) {
         0
       );
       const totalSpent = redemptions.reduce((sum, r) => sum + r.starCost, 0);
+      const totalAdjusted = adjustments.reduce((sum, a) => sum + a.stars, 0);
 
       setEarned(totalEarned);
       setSpent(totalSpent);
+      setAdjusted(totalAdjusted);
       setLoading(false);
     }
 
@@ -58,12 +69,22 @@ export function useStars(profileId?: string) {
       recalculate();
     });
 
+    // Adjustments: the parent ledger, filter by profileId if given
+    const adjConstraints: QueryConstraint[] = [];
+    if (profileId) adjConstraints.push(where("profileId", "==", profileId));
+    const unsubAdjustments = onSnapshot(query(adjustmentsCollection, ...adjConstraints), (snap) => {
+      adjustments = snap.docs.map((d) => ({ id: d.id, ...d.data() })) as Adjustment[];
+      loaded.adjustments = true;
+      recalculate();
+    });
+
     return () => {
       unsubTasks();
       unsubCompletions();
       unsubRedemptions();
+      unsubAdjustments();
     };
   }, [profileId]);
 
-  return { earned, spent, balance: earned - spent, loading };
+  return { earned, spent, adjusted, balance: earned + adjusted - spent, loading };
 }

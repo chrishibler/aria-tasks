@@ -258,8 +258,8 @@ export function TaskForm({
                 <Segment selected={type === "routine"} onPress={() => setType("routine")}>
                   Routine
                 </Segment>
-                <Segment selected={type === "chore"} onPress={() => setType("chore")}>
-                  Chore
+                <Segment selected={type === "daily"} onPress={() => setType("daily")}>
+                  Daily
                 </Segment>
               </div>
             </div>

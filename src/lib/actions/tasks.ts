@@ -27,8 +27,8 @@ export async function uncompleteTask(
   profileId: string,
   taskStars: number
 ): Promise<UncompleteResult> {
-  const { earned, spent } = await getProfileBalance(profileId);
-  const balanceAfter = earned - taskStars - spent;
+  const { spent, balance } = await getProfileBalance(profileId);
+  const balanceAfter = balance - taskStars;
 
   if (balanceAfter < 0) {
     return { ok: false, shortfall: -balanceAfter, spent };

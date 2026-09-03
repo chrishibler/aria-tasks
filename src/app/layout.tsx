@@ -31,8 +31,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("h-full", "antialiased", nunito.variable, "font-sans", geist.variable)}>
+    // The pre-paint script below sets data-sidebar-hidden on this element, so
+    // the DOM React hydrates against differs from the HTML the server sent.
+    // That difference is the point — suppress the warning for this element's
+    // own attributes (it does not apply to any descendant).
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn("h-full", "antialiased", nunito.variable, "font-sans", geist.variable)}
+    >
       <body className="min-h-full flex flex-col font-sans">
+        {/* Runs before paint so the sidebar starts in the right state. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('aria-sidebar-hidden')==='true')document.documentElement.dataset.sidebarHidden='true'}catch(e){}",
+          }}
+        />
         <ServiceWorkerRegistrar />
         <ConfirmProvider>{children}</ConfirmProvider>
       </body>

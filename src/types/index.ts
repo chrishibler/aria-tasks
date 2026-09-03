@@ -27,7 +27,7 @@ export interface Profile {
 // --- Task ---
 
 export type TimeSlot = "morning" | "afternoon" | "evening";
-export type TaskType = "routine" | "chore";
+export type TaskType = "routine" | "daily";
 export type DayOfWeek = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 
 export interface Task {
@@ -36,7 +36,7 @@ export interface Task {
   name: string;
   illustration: string; // name of SVG in /public/illustrations
   type: TaskType;
-  timeSlot: TimeSlot | null; // null for chores
+  timeSlot: TimeSlot | null; // null for dailies
   stars: number;
   repeatDays: DayOfWeek[];
   active: boolean; // when false, hidden from kids' view (completions kept)
@@ -77,6 +77,28 @@ export interface Redemption {
   profileId: string;
   starCost: number;
   redeemedAt: Timestamp;
+}
+
+// --- Adjustment ---
+
+/**
+ * A manual star adjustment made by a parent in admin: the escape hatch for
+ * situations the earn/spend flow can't express on its own (a daily done off
+ * the app, stars taken back, a redemption refunded).
+ *
+ * The collection is append-only — a mistake is corrected by reversing it with
+ * an opposite entry rather than by editing or deleting, so the ledger always
+ * explains how a balance got to where it is.
+ */
+export interface Adjustment {
+  id: string;
+  profileId: string;
+  /** Positive gives stars, negative takes them away. Never zero. */
+  stars: number;
+  reason: string;
+  /** Set on the entry that reverses another, pointing at the one it undoes. */
+  reversesId?: string;
+  createdAt: Timestamp;
 }
 
 // --- Custom Lists ---

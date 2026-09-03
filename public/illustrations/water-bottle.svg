@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Water bottle</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef4fd"/>
+<rect x="88" y="34" width="26" height="26" rx="6" fill="#f4a0b8"/>
+<rect x="90" y="54" width="22" height="16" rx="4" fill="#a8c6ee"/>
+<rect x="70" y="64" width="62" height="106" rx="20" fill="#cfe4fb"/>
+<rect x="76" y="106" width="50" height="58" rx="16" fill="#74c4f0"/>
+<rect x="70" y="92" width="62" height="12" rx="6" fill="#a8c6ee" opacity="0.8"/>
+<rect x="80" y="76" width="8" height="26" rx="4" fill="white" opacity="0.7"/>
+<circle cx="104" cy="128" r="5" fill="white" opacity="0.5"/>
+<circle cx="92" cy="142" r="4" fill="white" opacity="0.4"/>
+<path d="M158 96 Q170 112 158 122 Q146 112 158 96 Z" fill="#74c4f0" opacity="0.8"/>
+<path d="M42 118 Q52 131 42 139 Q32 131 42 118 Z" fill="#a8d8f0" opacity="0.8"/>
+</svg>

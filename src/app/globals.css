@@ -131,6 +131,14 @@
   }
 }
 
+/* Set by the pre-paint script in the root layout. The server can't read
+   localStorage, so without this a hidden sidebar renders open and then
+   animates shut on every load. */
+html[data-sidebar-hidden="true"] #family-sidebar {
+  width: 0;
+  border-right-width: 0;
+}
+
 .touch-target {
   min-height: 48px;
   min-width: 48px;

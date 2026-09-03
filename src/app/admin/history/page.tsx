@@ -12,14 +12,17 @@ import {
 } from "@/components/ui/table";
 import { useCompletions } from "@/lib/hooks/use-completions";
 import { useRedemptions } from "@/lib/hooks/use-redemptions";
+import { useAdjustments } from "@/lib/hooks/use-adjustments";
 import { useTasks } from "@/lib/hooks/use-tasks";
 import { useProfiles } from "@/lib/hooks/use-profiles";
+import { AdjustmentsTable } from "@/components/admin/adjustments-table";
 import { PROFILE_COLORS, illustrationSrc } from "@/lib/constants";
 import Image from "next/image";
 
 export default function AdminHistoryPage() {
   const { completions } = useCompletions({ todayOnly: false });
   const { redemptions } = useRedemptions();
+  const { adjustments } = useAdjustments();
   const { tasks } = useTasks();
   const { profiles } = useProfiles();
 
@@ -43,6 +46,7 @@ export default function AdminHistoryPage() {
         <TabsList>
           <TabsTrigger id="earned">Stars Earned</TabsTrigger>
           <TabsTrigger id="redeemed">Rewards Redeemed</TabsTrigger>
+          <TabsTrigger id="adjusted">Adjustments</TabsTrigger>
         </TabsList>
 
         <TabsContent id="earned">
@@ -139,6 +143,14 @@ export default function AdminHistoryPage() {
                 })}
               </TableBody>
             </Table>
+          )}
+        </TabsContent>
+
+        <TabsContent id="adjusted">
+          {adjustments.length === 0 ? (
+            <p className="text-gray-500 mt-4">No manual adjustments yet.</p>
+          ) : (
+            <AdjustmentsTable adjustments={adjustments} profiles={profiles} />
           )}
         </TabsContent>
       </Tabs>

@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Vitamins</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#fdeee8"/>
+<rect x="66" y="80" width="68" height="86" rx="12" fill="#f4b8a0"/>
+<rect x="72" y="60" width="56" height="26" rx="8" fill="#e8a080"/>
+<rect x="76" y="102" width="48" height="42" rx="8" fill="white" opacity="0.9"/>
+<rect x="96" y="110" width="8" height="26" rx="3" fill="#f08868"/>
+<rect x="87" y="119" width="26" height="8" rx="3" fill="#f08868"/>
+<rect x="26" y="140" width="38" height="20" rx="10" fill="#f4d880" transform="rotate(-20 45 150)"/>
+<line x1="45" y1="141" x2="45" y2="159" stroke="#e8b840" stroke-width="2" stroke-linecap="round" transform="rotate(-20 45 150)"/>
+<circle cx="152" cy="150" r="14" fill="#a8d8f0"/>
+<line x1="140" y1="150" x2="164" y2="150" stroke="#7ec0e8" stroke-width="2" stroke-linecap="round"/>
+<circle cx="166" cy="112" r="8" fill="#b8e8c8"/>
+<circle cx="40" cy="102" r="6" fill="#f4a0b8"/>
+</svg>

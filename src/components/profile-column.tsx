@@ -9,6 +9,7 @@ import { useCompletions } from "@/lib/hooks/use-completions";
 import { useTasks } from "@/lib/hooks/use-tasks";
 import { useStars } from "@/lib/hooks/use-stars";
 import { useDateNavigation } from "@/lib/hooks/use-date-navigation";
+import { useCurrentTimeSlot } from "@/lib/hooks/use-current-time-slot";
 import { PROFILE_COLORS } from "@/lib/constants";
 import { getDayOfWeek, cn } from "@/lib/utils";
 import type { Profile, Task, Completion, TimeSlot } from "@/types";
@@ -160,11 +161,17 @@ interface ProfileColumnProps {
 }
 
 export function ProfileColumn({ profile }: ProfileColumnProps) {
-  const { date, dateString } = useDateNavigation();
+  const { date, dateString, isToday } = useDateNavigation();
   const { tasks } = useTasks(profile.id);
   const { completions } = useCompletions({ profileId: profile.id, date: dateString });
   const { balance } = useStars(profile.id);
-  const [filter, setFilter] = useState<FilterSlot>("all");
+  const tick = useCurrentTimeSlot();
+  const autoSlot = tick?.slot ?? null;
+  // A tap wins until the clock moves to the next slot, then the column follows
+  // it again. Keyed on the tick's generation rather than the slot name so a
+  // choice can't come back to life when that slot next comes round. Derived
+  // rather than reset in an effect, so no render sees the two disagree.
+  const [override, setOverride] = useState<{ value: FilterSlot; generation: number } | null>(null);
 
   const colors = PROFILE_COLORS[profile.color];
   const dayOfWeek = getDayOfWeek(date);
@@ -179,7 +186,7 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
     [tasks, dayOfWeek]
   );
 
-  // Only routines live in the profile column now; chores have their own column.
+  // Only routines live in the profile column now; dailies have their own column.
   const routines = useMemo(
     () => activeTasks.filter((t) => t.type === "routine"),
     [activeTasks]
@@ -203,6 +210,13 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
     afternoon: slotGroups.afternoon.length > 0,
     evening: slotGroups.evening.length > 0,
   }), [slotGroups]);
+
+  // Follow the clock, but only for today, and only when that slot has
+  // something in it — auto-filtering to an empty list would look broken.
+  const autoFilter: FilterSlot =
+    isToday && autoSlot && hasSlotTasks[autoSlot] ? autoSlot : "all";
+  const filter: FilterSlot =
+    override && tick && override.generation === tick.generation ? override.value : autoFilter;
 
   const completionMap = useMemo(() => {
     const map = new Map<string, Completion>();
@@ -254,7 +268,12 @@ export function ProfileColumn({ profile }: ProfileColumnProps) {
               <button
                 key={slot}
                 title={label}
-                onClick={() => setFilter(isActive ? "all" : slot)}
+                onClick={() =>
+                  setOverride({
+                    value: isActive ? "all" : slot,
+                    generation: tick?.generation ?? -1,
+                  })
+                }
                 className="transition-all"
               >
                 <CircularProgress

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useSidebarHidden } from "@/lib/hooks/use-sidebar-visibility";
 import {
   CheckCircleIcon,
   CalendarDaysIcon,
@@ -20,12 +21,23 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { hidden } = useSidebarHidden();
 
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-[200px] flex-col border-r bg-slate-50/50">
-        <div className="flex-1 flex flex-col gap-1.5 p-3 pt-5">
+      {/* `inert` keeps the collapsed links out of the tab order and off screen
+          readers, which visibility alone wouldn't do. */}
+      <aside
+        id="family-sidebar"
+        aria-label="Main navigation"
+        inert={hidden}
+        className={cn(
+          "hidden shrink-0 flex-col overflow-hidden bg-slate-50/50 transition-[width] duration-300 ease-in-out md:flex motion-reduce:transition-none",
+          hidden ? "w-0 border-r-0" : "w-[200px] border-r"
+        )}
+      >
+        <div className="flex w-[200px] flex-1 flex-col gap-1.5 p-3 pt-5">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             return (
@@ -46,7 +58,7 @@ export function Sidebar() {
           })}
         </div>
 
-        <div className="border-t p-3">
+        <div className="w-[200px] border-t p-3">
           <Link
             href="/admin"
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-white hover:text-foreground transition-colors"

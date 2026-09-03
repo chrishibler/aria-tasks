@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Read</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#fdf6ee"/>
+<path d="M100 88 Q66 70 26 78 L26 156 Q66 148 100 166 Q134 148 174 156 L174 78 Q134 70 100 88 Z" fill="#f4b880"/>
+<path d="M100 94 Q70 78 34 86 L34 148 Q70 142 100 158 Z" fill="white" opacity="0.95"/>
+<path d="M100 94 Q130 78 166 86 L166 148 Q130 142 100 158 Z" fill="white" opacity="0.95"/>
+<rect x="44" y="100" width="44" height="5" rx="2.5" fill="#e8d0b8"/>
+<rect x="44" y="113" width="48" height="5" rx="2.5" fill="#e8d0b8"/>
+<rect x="44" y="126" width="38" height="5" rx="2.5" fill="#e8d0b8"/>
+<rect x="112" y="100" width="44" height="5" rx="2.5" fill="#e8d0b8"/>
+<rect x="112" y="113" width="48" height="5" rx="2.5" fill="#e8d0b8"/>
+<rect x="112" y="126" width="34" height="5" rx="2.5" fill="#e8d0b8"/>
+<rect x="97" y="90" width="6" height="72" rx="3" fill="#e8a060"/>
+<path d="M100 34 L104 46 L116 50 L104 54 L100 66 L96 54 L84 50 L96 46 Z" fill="#f4d880"/>
+<circle cx="146" cy="52" r="5" fill="#f4d880" opacity="0.8"/>
+<circle cx="52" cy="60" r="4" fill="#f4d880" opacity="0.7"/>
+</svg>

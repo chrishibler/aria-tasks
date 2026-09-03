@@ -1,0 +1,15 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Sign papers</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef4fd"/>
+<rect x="44" y="46" width="100" height="122" rx="8" fill="#c2d8f5"/>
+<rect x="36" y="38" width="100" height="122" rx="8" fill="white" opacity="0.95"/>
+<rect x="50" y="56" width="72" height="8" rx="4" fill="#c2d8f5"/>
+<rect x="50" y="74" width="56" height="6" rx="3" fill="#dce8f8"/>
+<rect x="50" y="88" width="66" height="6" rx="3" fill="#dce8f8"/>
+<rect x="50" y="102" width="48" height="6" rx="3" fill="#dce8f8"/>
+<line x1="50" y1="140" x2="122" y2="140" stroke="#a8c6ee" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4"/>
+<path d="M56 134 Q68 116 76 132 Q84 148 96 122 Q104 138 118 126" fill="none" stroke="#5a8ec8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="140" y="96" width="16" height="56" rx="6" fill="#f4a0b8" transform="rotate(24 148 124)"/>
+<polygon points="158,152 172,158 164,168" fill="#f4d880" transform="rotate(24 148 124)"/>
+<polygon points="163,161 168,163 165,166" fill="#5a8ec8" transform="rotate(24 148 124)"/>
+</svg>

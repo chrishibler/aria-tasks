@@ -4,9 +4,11 @@ export const TIME_SLOTS: Record<
   TimeSlot,
   { start: number; end: number; label: string; greeting: string }
 > = {
-  morning: { start: 6, end: 12, label: "Morning", greeting: "Good morning" },
-  afternoon: { start: 12, end: 17, label: "Afternoon", greeting: "Good afternoon" },
-  evening: { start: 17, end: 22, label: "Evening", greeting: "Good evening" },
+  // Between them these cover the whole day: midnight-11 morning, 11-15
+  // afternoon, 15-midnight evening. `end` is exclusive.
+  morning: { start: 0, end: 11, label: "Morning", greeting: "Good morning" },
+  afternoon: { start: 11, end: 15, label: "Afternoon", greeting: "Good afternoon" },
+  evening: { start: 15, end: 24, label: "Evening", greeting: "Good evening" },
 };
 
 export const DAYS_OF_WEEK: { value: DayOfWeek; label: string; short: string }[] = [
@@ -49,6 +51,16 @@ export const TASK_ILLUSTRATIONS: { name: string; label: string }[] = [
   { name: "vacuum", label: "Vacuum" },
   { name: "take-out-trash", label: "Take out trash" },
   { name: "rake-leaves", label: "Rake leaves" },
+  { name: "vitamins", label: "Vitamins" },
+  { name: "breakfast", label: "Breakfast" },
+  { name: "snack", label: "Snack" },
+  { name: "water-bottle", label: "Water bottle" },
+  { name: "floss", label: "Floss" },
+  { name: "read", label: "Read" },
+  { name: "sign-papers", label: "Sign papers" },
+  { name: "reminder", label: "Reminder" },
+  { name: "helping", label: "Helping" },
+  { name: "kindness", label: "Kindness" },
 ];
 
 export const ILLUSTRATION_NAMES = new Set(TASK_ILLUSTRATIONS.map((i) => i.name));
@@ -63,27 +75,37 @@ export const ILLUSTRATION_BG: Record<string, string> = {
   "put-away-toys": "#eef4fd",
   "put-dishes-away": "#eef4fd",
   "wipe-the-table": "#eef4fd",
+  "sign-papers": "#eef4fd",
+  "water-bottle": "#eef4fd",
   "brush-hair": "#fdeee8",
   "clean-room": "#fdeee8",
   "clean-the-sink": "#fdeee8",
   "fold-clothes": "#fdeee8",
   "take-out-trash": "#fdeee8",
+  vitamins: "#fdeee8",
+  kindness: "#fdeee8",
   "feed-pet": "#f4eefb",
   "get-dressed": "#f4eefb",
   shower: "#f4eefb",
   "sweep-floor": "#f4eefb",
   "wipe-mirrors": "#f4eefb",
+  floss: "#f4eefb",
+  helping: "#f4eefb",
   "load-dishwasher": "#fdf8e8",
   "make-bed": "#fdf8e8",
   "rake-leaves": "#fdf8e8",
   "walk-the-dog": "#fdf8e8",
   "wipe-counters": "#fdf8e8",
+  breakfast: "#fdf8e8",
+  reminder: "#fdf8e8",
   "pack-lunch": "#eef8f2",
   "set-the-table": "#eef8f2",
   vacuum: "#eef8f2",
   "wash-hands": "#eef8f2",
   "water-plants": "#eef8f2",
+  snack: "#eef8f2",
   "unpack-backpack": "#fdf6ee",
+  read: "#fdf6ee",
 };
 
 export function illustrationSrc(name: string): string {

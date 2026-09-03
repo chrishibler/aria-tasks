@@ -10,11 +10,11 @@ import { PROFILE_COLORS } from "@/lib/constants";
 import { getDayOfWeek, cn } from "@/lib/utils";
 import type { Profile, Completion } from "@/types";
 
-interface ChoresColumnProps {
+interface DailiesColumnProps {
   profiles: Profile[];
 }
 
-export function ChoresColumn({ profiles }: ChoresColumnProps) {
+export function DailiesColumn({ profiles }: DailiesColumnProps) {
   const { date, dateString } = useDateNavigation();
   const { tasks } = useTasks();
   const { completions } = useCompletions({ date: dateString });
@@ -27,27 +27,27 @@ export function ChoresColumn({ profiles }: ChoresColumnProps) {
     return map;
   }, [completions]);
 
-  // All chores for the selected day, grouped by profile (in profile order).
-  const choresByProfile = useMemo(() => {
-    const activeChores = tasks.filter(
+  // All dailies for the selected day, grouped by profile (in profile order).
+  const dailiesByProfile = useMemo(() => {
+    const activeDailies = tasks.filter(
       (t) =>
-        t.type === "chore" &&
+        t.type === "daily" &&
         t.active !== false &&
         (t.repeatDays.length === 0 || t.repeatDays.includes(dayOfWeek))
     );
     return profiles
       .map((profile) => ({
         profile,
-        chores: activeChores
+        dailies: activeDailies
           .filter((c) => c.profileId === profile.id)
           .sort((a, b) => a.order - b.order),
       }))
-      .filter((group) => group.chores.length > 0);
+      .filter((group) => group.dailies.length > 0);
   }, [tasks, profiles, dayOfWeek]);
 
-  const totalChores = choresByProfile.reduce((sum, g) => sum + g.chores.length, 0);
-  const doneChores = choresByProfile.reduce(
-    (sum, g) => sum + g.chores.filter((c) => completionMap.has(c.id)).length,
+  const totalDailies = dailiesByProfile.reduce((sum, g) => sum + g.dailies.length, 0);
+  const doneDailies = dailiesByProfile.reduce(
+    (sum, g) => sum + g.dailies.filter((c) => completionMap.has(c.id)).length,
     0
   );
 
@@ -59,16 +59,16 @@ export function ChoresColumn({ profiles }: ChoresColumnProps) {
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 text-teal-700 ring-2 ring-white shadow-sm">
             <Brush className="h-5 w-5" />
           </div>
-          <h2 className="text-lg font-bold flex-1 truncate">Chores</h2>
+          <h2 className="text-lg font-bold flex-1 truncate">Dailies</h2>
         </div>
         <div className="flex items-center gap-1.5 text-base font-bold text-muted-foreground">
-          {doneChores}/{totalChores} done
+          {doneDailies}/{totalDailies} done
         </div>
       </div>
 
-      {/* Chore cards grouped by profile */}
+      {/* Daily cards grouped by profile */}
       <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-5 pt-4">
-        {choresByProfile.map(({ profile, chores }) => {
+        {dailiesByProfile.map(({ profile, dailies }) => {
           const colors = PROFILE_COLORS[profile.color];
           return (
             <div key={profile.id}>
@@ -85,7 +85,7 @@ export function ChoresColumn({ profiles }: ChoresColumnProps) {
                 <h3 className="text-sm font-bold text-foreground/70">{profile.name}</h3>
               </div>
               <div className="space-y-2">
-                {chores.map((task) => (
+                {dailies.map((task) => (
                   <TaskCard
                     key={task.id}
                     task={task}
@@ -98,9 +98,9 @@ export function ChoresColumn({ profiles }: ChoresColumnProps) {
           );
         })}
 
-        {totalChores === 0 && (
+        {totalDailies === 0 && (
           <p className="text-center text-sm text-muted-foreground py-8">
-            No chores for today
+            No dailies for today
           </p>
         )}
       </div>

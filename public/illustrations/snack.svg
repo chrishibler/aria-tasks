@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Snack</title>
+<rect x="0" y="0" width="200" height="200" rx="16" fill="#eef8f2"/>
+<ellipse cx="100" cy="156" rx="70" ry="16" fill="#d8ecd8"/>
+<ellipse cx="100" cy="150" rx="70" ry="16" fill="#eaf6ea"/>
+<circle cx="70" cy="118" r="28" fill="#f07060"/>
+<circle cx="60" cy="108" r="8" fill="white" opacity="0.35"/>
+<line x1="70" y1="92" x2="70" y2="82" stroke="#8a6448" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="82" cy="82" rx="12" ry="7" fill="#78c060" transform="rotate(-22 82 82)"/>
+<rect x="112" y="112" width="40" height="34" rx="6" fill="#f4c870"/>
+<rect x="118" y="104" width="40" height="34" rx="6" fill="#f8d890"/>
+<circle cx="128" cy="116" r="3" fill="#d8a850"/>
+<circle cx="142" cy="112" r="3" fill="#d8a850"/>
+<circle cx="136" cy="126" r="3" fill="#d8a850"/>
+<circle cx="148" cy="126" r="3" fill="#d8a850"/>
+<circle cx="126" cy="130" r="3" fill="#d8a850"/>
+</svg>

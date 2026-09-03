@@ -3,11 +3,14 @@ import {
   tasksCollection,
   completionsCollection,
   redemptionsCollection,
+  adjustmentsCollection,
 } from "../collections";
-import type { Task, Completion, Redemption } from "@/types";
+import type { Task, Completion, Redemption, Adjustment } from "@/types";
 
 export interface StarBalance {
   earned: number;
+  /** Net of the parent adjustment ledger: may be negative. */
+  adjusted: number;
   spent: number;
   balance: number;
 }
@@ -19,10 +22,11 @@ export interface StarBalance {
  * contributes 0 stars.
  */
 export async function getProfileBalance(profileId: string): Promise<StarBalance> {
-  const [taskSnap, completionSnap, redemptionSnap] = await Promise.all([
+  const [taskSnap, completionSnap, redemptionSnap, adjustmentSnap] = await Promise.all([
     getDocs(query(tasksCollection, where("profileId", "==", profileId))),
     getDocs(query(completionsCollection, where("profileId", "==", profileId))),
     getDocs(query(redemptionsCollection, where("profileId", "==", profileId))),
+    getDocs(query(adjustmentsCollection, where("profileId", "==", profileId))),
   ]);
 
   const starsByTask = new Map(
@@ -36,6 +40,10 @@ export async function getProfileBalance(profileId: string): Promise<StarBalance>
     (sum, d) => sum + ((d.data() as Redemption).starCost || 0),
     0
   );
+  const adjusted = adjustmentSnap.docs.reduce(
+    (sum, d) => sum + ((d.data() as Adjustment).stars || 0),
+    0
+  );
 
-  return { earned, spent, balance: earned - spent };
+  return { earned, adjusted, spent, balance: earned + adjusted - spent };
 }
