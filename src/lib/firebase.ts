@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,4 +11,13 @@ const firebaseConfig = {
 };
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-export const db = getFirestore(app);
+
+// Firestore's default streaming transport hangs behind the iOS/iPadOS Screen
+// Time web content filter ("Limit Adult Websites"): the filter buffers the
+// long-lived response, so onSnapshot listeners never receive a first snapshot
+// and the UI sits on skeletons forever. The SDK's auto-detection doesn't catch
+// this case. Forcing long polling uses plain request/response round trips,
+// which the filter passes through, at the cost of slightly higher latency.
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
