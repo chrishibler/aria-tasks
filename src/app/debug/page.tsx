@@ -46,15 +46,34 @@ const MAX_LOG = 400;
 // would otherwise leave the page blank. See the <script> in the JSX.
 const EARLY_SCRIPT = `
 window.__ariaDebug = window.__ariaDebug || { t0: Date.now(), errors: [] };
-window.addEventListener('error', function (e) {
-  window.__ariaDebug.errors.push({ t: Date.now(), msg: String((e && e.message) || e), src: e && e.filename ? e.filename + ':' + e.lineno : '' });
-});
-window.addEventListener('unhandledrejection', function (e) {
-  var r = e && e.reason;
-  window.__ariaDebug.errors.push({ t: Date.now(), msg: 'unhandledrejection: ' + (r && r.message ? r.message : String(r)) });
-});
-var el = document.getElementById('debug-early');
-if (el) el.textContent = 'Scripts are running. Waiting for the app to start... ' + navigator.userAgent;
+(function () {
+  var el = document.getElementById('debug-early');
+  var base = 'Scripts are running. Waiting for the app to start... ' + navigator.userAgent;
+  function render() {
+    if (!el || !el.isConnected) return;
+    var errs = window.__ariaDebug.errors;
+    var text = base;
+    if (errs.length) {
+      text += '\n\nErrors so far (' + errs.length + '):';
+      for (var i = 0; i < errs.length; i++) text += '\n- ' + errs[i].msg + (errs[i].src ? ' @ ' + errs[i].src : '');
+    }
+    el.textContent = text;
+  }
+  window.addEventListener('error', function (e) {
+    window.__ariaDebug.errors.push({ t: Date.now(), msg: String((e && e.message) || e), src: e && e.filename ? e.filename + ':' + e.lineno : '' });
+    render();
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    var r = e && e.reason;
+    window.__ariaDebug.errors.push({ t: Date.now(), msg: 'unhandledrejection: ' + (r && r.message ? r.message : String(r)) });
+    render();
+  });
+  render();
+  // If React still hasn't taken over after a while, say so explicitly.
+  setTimeout(function () {
+    if (el && el.isConnected) { base += '\n\nStill no app after 8s: a script failed to load or parse on this device.'; render(); }
+  }, 8000);
+})();
 `;
 
 function withTimeout<T>(p: Promise<T>, ms = TIMEOUT_MS): Promise<T> {
@@ -398,7 +417,7 @@ export default function DebugPage() {
           React itself. If either message is still visible, JavaScript failed
           at that stage. suppressHydrationWarning: the script edits this text. */}
       {!mounted && (
-        <p id="debug-early" suppressHydrationWarning className="mt-3 rounded-md bg-amber-50 p-3 text-amber-900">
+        <p id="debug-early" suppressHydrationWarning className="mt-3 whitespace-pre-wrap break-words rounded-md bg-amber-50 p-3 text-amber-900">
           Waiting for scripts to load… If this message stays, JavaScript is not running on this
           device at all.
         </p>
