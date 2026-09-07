@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -83,6 +84,21 @@ export default function AdminSettingsPage() {
       {saved && (
         <p className="text-sm text-green-600 font-medium">Saved successfully!</p>
       )}
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Diagnostics</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            If tasks never load on a device, open this page there. It tests the
+            connection to the database and shows the build it is running.
+          </p>
+          <Link href="/debug" className="text-sm font-semibold underline underline-offset-4">
+            Open diagnostics
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   );
 }
