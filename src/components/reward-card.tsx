@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StarIcon, CheckIcon } from "@heroicons/react/24/solid";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -11,10 +12,17 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { redeemReward } from "@/lib/actions/rewards";
+import { redeemReward, undoRedemption } from "@/lib/actions/rewards";
 import { useConfirm } from "@/components/confirm-provider";
 import type { Reward } from "@/types";
 import { cn } from "@/lib/utils";
+
+/**
+ * How long the "Undo" stays on the card after redeeming. Long enough to catch
+ * a mis-tap, short enough that it can't be used to keep the reward and take
+ * the stars back later — a parent undoes those from admin History instead.
+ */
+const UNDO_WINDOW_MS = 10_000;
 
 interface RewardCardProps {
   reward: Reward;
@@ -24,10 +32,32 @@ interface RewardCardProps {
 
 export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [justRedeemed, setJustRedeemed] = useState(false);
+  // The id of the redemption the undo below would reverse; null once the
+  // window has closed.
+  const [undoableId, setUndoableId] = useState<string | null>(null);
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const confirm = useConfirm();
   const canAfford = balance >= reward.starCost;
   const progress = Math.min((balance / reward.starCost) * 100, 100);
+
+  // A redemption belongs to the profile that made it, so switching profiles
+  // closes any open undo window instead of offering it to the next kid. The
+  // same cleanup runs on unmount, so no timer is left to fire against a card
+  // that is gone.
+  useEffect(
+    () => () => {
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      undoTimerRef.current = null;
+      setUndoableId(null);
+    },
+    [profileId]
+  );
+
+  function closeUndoWindow() {
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoTimerRef.current = null;
+    setUndoableId(null);
+  }
 
   async function handleRedeem() {
     setShowConfirm(false);
@@ -50,8 +80,20 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
       return;
     }
 
-    setJustRedeemed(true);
-    setTimeout(() => setJustRedeemed(false), 2000);
+    setUndoableId(result.redemptionId);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoTimerRef.current = setTimeout(() => {
+      undoTimerRef.current = null;
+      setUndoableId(null);
+    }, UNDO_WINDOW_MS);
+  }
+
+  async function handleUndo() {
+    if (!undoableId) return;
+    const id = undoableId;
+    // Close first so a second tap can't fire the same undo twice.
+    closeUndoWindow();
+    await undoRedemption(id);
   }
 
   return (
@@ -59,7 +101,7 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
       <div
         className={cn(
           "rounded-xl border bg-card p-5 transition-all",
-          justRedeemed ? "border-primary/50 bg-primary/5" : "border-border"
+          undoableId ? "border-primary/50 bg-primary/5" : "border-border"
         )}
       >
         <div className="mb-3 flex items-center justify-between">
@@ -105,10 +147,21 @@ export function RewardCard({ reward, balance, profileId }: RewardCardProps) {
           {canAfford ? "Redeem" : `Need ${reward.starCost - balance} more`}
         </Button>
 
-        {justRedeemed && (
-          <div className="mt-2 flex items-center justify-center gap-1 text-sm font-medium text-primary animate-check-in">
-            <CheckIcon className="h-4 w-4" />
-            Redeemed!
+        {undoableId && (
+          <div className="mt-2 flex items-center justify-center gap-2 text-sm font-medium text-primary animate-check-in">
+            <span className="flex items-center gap-1">
+              <CheckIcon className="h-4 w-4" />
+              Redeemed!
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onPress={handleUndo}
+              className="h-auto gap-1 px-2 py-0.5 text-sm font-semibold underline"
+            >
+              <ArrowUturnLeftIcon className="h-3.5 w-3.5" />
+              Undo
+            </Button>
           </div>
         )}
       </div>

@@ -77,6 +77,13 @@ export interface Redemption {
   profileId: string;
   starCost: number;
   redeemedAt: Timestamp;
+  /**
+   * Set when the redemption is undone — from the card right after a mis-tap,
+   * or by a parent from admin History. The stars come back to the profile and
+   * the entry stops counting as spent, but the record is kept rather than
+   * deleted so History still shows what happened. Absent/null means it stands.
+   */
+  undoneAt?: Timestamp | null;
 }
 
 // --- Adjustment ---

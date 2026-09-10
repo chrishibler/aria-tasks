@@ -16,8 +16,12 @@ import { useAdjustments } from "@/lib/hooks/use-adjustments";
 import { useTasks } from "@/lib/hooks/use-tasks";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { AdjustmentsTable } from "@/components/admin/adjustments-table";
+import { RedemptionsTable } from "@/components/admin/redemptions-table";
+import { useConfirm } from "@/components/confirm-provider";
+import { undoRedemption } from "@/lib/actions/rewards";
 import { PROFILE_COLORS, illustrationSrc } from "@/lib/constants";
 import Image from "next/image";
+import type { Redemption } from "@/types";
 
 export default function AdminHistoryPage() {
   const { completions } = useCompletions({ todayOnly: false });
@@ -25,6 +29,7 @@ export default function AdminHistoryPage() {
   const { adjustments } = useAdjustments();
   const { tasks } = useTasks();
   const { profiles } = useProfiles();
+  const confirm = useConfirm();
 
   const taskMap = useMemo(() => new Map(tasks.map((t) => [t.id, t])), [tasks]);
   const profileMap = useMemo(() => new Map(profiles.map((p) => [p.id, p])), [profiles]);
@@ -37,6 +42,23 @@ export default function AdminHistoryPage() {
       }),
     [completions]
   );
+
+  async function handleUndoRedemption(redemption: Redemption) {
+    const profile = profileMap.get(redemption.profileId);
+    const confirmed = await confirm({
+      title: `Undo redeeming "${redemption.rewardName}"?`,
+      description: `${redemption.starCost} ${
+        redemption.starCost === 1 ? "star" : "stars"
+      } will be returned to ${
+        profile?.name ?? "this profile"
+      }. The redemption stays in History, marked as undone.`,
+      confirmLabel: "Undo it",
+      destructive: false,
+    });
+    if (!confirmed) return;
+
+    await undoRedemption(redemption.id);
+  }
 
   return (
     <div className="max-w-3xl">
@@ -109,40 +131,11 @@ export default function AdminHistoryPage() {
           {redemptions.length === 0 ? (
             <p className="text-gray-500 mt-4">No redemptions yet.</p>
           ) : (
-            <Table aria-label="Rewards redeemed">
-              <TableHeader>
-                <TableHead isRowHeader>Date</TableHead>
-                <TableHead>Profile</TableHead>
-                <TableHead>Reward</TableHead>
-                <TableHead className="text-right">Stars Spent</TableHead>
-              </TableHeader>
-              <TableBody>
-                {redemptions.map((r) => {
-                  const profile = profileMap.get(r.profileId);
-                  const colors = profile ? PROFILE_COLORS[profile.color] : null;
-                  return (
-                    <TableRow key={r.id}>
-                      <TableCell className="text-sm">
-                        {r.redeemedAt?.toDate?.()?.toLocaleDateString() ?? "—"}
-                      </TableCell>
-                      <TableCell>
-                        {profile ? (
-                          <span className={`text-sm font-medium ${colors?.text}`}>
-                            {profile.name}
-                          </span>
-                        ) : (
-                          "—"
-                        )}
-                      </TableCell>
-                      <TableCell>{r.rewardName}</TableCell>
-                      <TableCell className="text-right font-medium">
-                        -{r.starCost}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+            <RedemptionsTable
+              redemptions={redemptions}
+              profiles={profiles}
+              onUndo={handleUndoRedemption}
+            />
           )}
         </TabsContent>
 

@@ -8,6 +8,7 @@ import {
   redemptionsCollection,
   adjustmentsCollection,
 } from "../collections";
+import { isRedemptionActive } from "../redemptions";
 import type { Task, Completion, Redemption, Adjustment } from "@/types";
 
 export function useStars(profileId?: string) {
@@ -33,7 +34,11 @@ export function useStars(profileId?: string) {
         (sum, c) => sum + (taskStarMap.get(c.taskId) || 0),
         0
       );
-      const totalSpent = redemptions.reduce((sum, r) => sum + r.starCost, 0);
+      // An undone redemption stays in the collection for History but has
+      // already given its stars back.
+      const totalSpent = redemptions
+        .filter(isRedemptionActive)
+        .reduce((sum, r) => sum + r.starCost, 0);
       const totalAdjusted = adjustments.reduce((sum, a) => sum + a.stars, 0);
 
       setEarned(totalEarned);

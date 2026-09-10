@@ -5,6 +5,7 @@ import {
   redemptionsCollection,
   adjustmentsCollection,
 } from "../collections";
+import { isRedemptionActive } from "../redemptions";
 import type { Task, Completion, Redemption, Adjustment } from "@/types";
 
 export interface StarBalance {
@@ -19,7 +20,7 @@ export interface StarBalance {
  * Recomputes a profile's star balance straight from Firestore, rather than
  * trusting a value the UI is holding (which may be stale, or from another
  * device). Mirrors useStars(): a completion whose task no longer exists
- * contributes 0 stars.
+ * contributes 0 stars, and an undone redemption no longer counts as spent.
  */
 export async function getProfileBalance(profileId: string): Promise<StarBalance> {
   const [taskSnap, completionSnap, redemptionSnap, adjustmentSnap] = await Promise.all([
@@ -36,10 +37,10 @@ export async function getProfileBalance(profileId: string): Promise<StarBalance>
     (sum, d) => sum + (starsByTask.get((d.data() as Completion).taskId) || 0),
     0
   );
-  const spent = redemptionSnap.docs.reduce(
-    (sum, d) => sum + ((d.data() as Redemption).starCost || 0),
-    0
-  );
+  const spent = redemptionSnap.docs
+    .map((d) => d.data() as Redemption)
+    .filter(isRedemptionActive)
+    .reduce((sum, r) => sum + (r.starCost || 0), 0);
   const adjusted = adjustmentSnap.docs.reduce(
     (sum, d) => sum + ((d.data() as Adjustment).stars || 0),
     0

@@ -6,13 +6,16 @@ import { useStars } from "@/lib/hooks/use-stars";
 import { useRedemptions } from "@/lib/hooks/use-redemptions";
 import { useProfiles } from "@/lib/hooks/use-profiles";
 import { PROFILE_COLORS } from "@/lib/constants";
+import { isRedemptionActive } from "@/lib/redemptions";
 import { StarIcon, CheckCircleIcon, GiftIcon, UsersIcon } from "@heroicons/react/24/outline";
 
 export default function AdminDashboard() {
   const { profiles } = useProfiles();
   const { balance, earned } = useStars();
   const { completions } = useCompletions({ todayOnly: true });
-  const { redemptions } = useRedemptions();
+  const { redemptions: allRedemptions } = useRedemptions();
+  // Undone redemptions stay in History but shouldn't count here.
+  const redemptions = allRedemptions.filter(isRedemptionActive);
 
   const stats = [
     {
